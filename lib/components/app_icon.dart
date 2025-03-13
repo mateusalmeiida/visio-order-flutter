@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:visioorder/data/colors_data.dart';
+import 'package:visio_order/data/colors_data.dart';
 
 class AppIcon extends StatelessWidget {
   const AppIcon({super.key});

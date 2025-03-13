@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:visioorder/pages/home_page.dart';
-import 'package:visioorder/pages/settings_page.dart';
-import 'package:visioorder/utils/app_routes.dart';
+import 'package:visio_order/pages/home_page.dart';
+import 'package:visio_order/pages/settings_page.dart';
+import 'package:visio_order/utils/app_routes.dart';
 
 void main() {
   runApp(VisioOrder());
