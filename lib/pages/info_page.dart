@@ -8,15 +8,23 @@ class InfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final double width;
     final double sizeImage;
+    final double widthText;
+    final double fontSize;
     if (MediaQuery.of(context).size.width <= 500) {
       width = 300;
       sizeImage = 70;
+      widthText = width * 0.6;
+      fontSize = 16;
     } else if (MediaQuery.of(context).size.width <= 700) {
-      width = 500;
+      width = 450;
       sizeImage = 100;
+      widthText = width * 0.4;
+      fontSize = 16;
     } else {
-      width = 700;
+      width = 650;
       sizeImage = 100;
+      widthText = width * 0.3;
+      fontSize = 18;
     }
 
     return Scaffold(
@@ -35,7 +43,7 @@ class InfoPage extends StatelessWidget {
           children: [
             Container(
               alignment: Alignment.topCenter,
-              padding: EdgeInsets.only(top: 50, bottom: 50),
+              padding: EdgeInsets.only(top: 40, bottom: 40),
               child: Text(
                 'Sobre',
                 style: TextStyle(
@@ -47,6 +55,7 @@ class InfoPage extends StatelessWidget {
             SizedBox(
               width: width,
               child: Text(
+                  style: TextStyle(fontSize: fontSize),
                   textAlign: TextAlign.justify,
                   'Este aplicativo foi desenvolvido como parte de um Trabalho de Conclusão de Curso (TCC) em Engenharia da Computação, '
                   'com o objetivo de auxiliar no aprendizado de algoritmos de ordenação por meio de uma experiência visual e interativa. '
@@ -73,9 +82,20 @@ class InfoPage extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Mateus de Almeida Ribeiro'),
                       SizedBox(
-                        width: width * 0.6,
+                        width: widthText,
+                        child: FittedBox(
+                          child: Text(
+                            'Mateus de Almeida Ribeiro',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: ColorsData
+                                    .colorsAlgorithm['Insertion Sort']![1]),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: widthText,
                         child: FittedBox(
                           child: Text(
                             style: TextStyle(fontSize: 20),
@@ -88,6 +108,7 @@ class InfoPage extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(height: 50)
           ],
         ),
       ),

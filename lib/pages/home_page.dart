@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:visio_order/components/app_icon.dart';
 import 'package:visio_order/components/select_algorithm.dart';
 import 'package:visio_order/data/colors_data.dart';
+import 'package:visio_order/models/data_list.dart';
 import 'package:visio_order/utils/app_routes.dart';
 
 class HomePage extends StatelessWidget {
@@ -9,6 +11,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> algorithmList =
+        Provider.of<DataList>(context).algorithmList;
     return Scaffold(
       appBar: AppBar(
         title: Text('Visio Order'),
@@ -30,18 +34,17 @@ class HomePage extends StatelessWidget {
               ))
         ],
       ),
-      body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+      body: Column(children: [
         SizedBox(height: 20),
         AppIcon(),
         SizedBox(height: 20),
         Expanded(
           child: ListView.builder(
-              itemCount: ColorsData.colorsAlgorithm.length,
+              itemCount: algorithmList.length,
               itemBuilder: (ctx, index) {
-                final alg = ColorsData.colorsAlgorithm.keys.toList();
                 return Column(
                   children: [
-                    SelectAlgorithm(algorithm: alg[index]),
+                    SelectAlgorithm(algorithm: algorithmList[index]),
                     SizedBox(
                       height: 30,
                     )

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:visio_order/data/colors_data.dart';
+import 'package:visio_order/models/data_list.dart';
 import 'package:visio_order/utils/app_routes.dart';
 
 class SelectAlgorithm extends StatelessWidget {
@@ -20,8 +22,8 @@ class SelectAlgorithm extends StatelessWidget {
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context)
-              .pushNamed(AppRoutes.SETTINGS_PAGE, arguments: algorithm);
+          Provider.of<DataList>(context, listen: false).setAlgorithm(algorithm);
+          Navigator.of(context).pushNamed(AppRoutes.SETTINGS_PAGE);
         },
         child: Container(
           width: width,

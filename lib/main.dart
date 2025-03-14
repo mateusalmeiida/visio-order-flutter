@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:visio_order/models/data_list.dart';
 import 'package:visio_order/pages/home_page.dart';
 import 'package:visio_order/pages/info_page.dart';
 import 'package:visio_order/pages/settings_page.dart';
@@ -13,29 +15,33 @@ class VisioOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Visio Order',
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
+    return ChangeNotifierProvider(
+      create: (_) => DataList(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Visio Order',
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(
             titleTextStyle: TextStyle(
                 fontFamily: 'BebasNeue', fontSize: 30, color: Colors.white),
             centerTitle: true,
             backgroundColor: Colors.transparent,
-            foregroundColor: Colors.white),
-        fontFamily: 'Lato',
+            foregroundColor: Colors.white,
+          ),
+          fontFamily: 'Lato',
+        ),
+        routes: {
+          AppRoutes.HOME: (ctx) {
+            return HomePage();
+          },
+          AppRoutes.SETTINGS_PAGE: (ctx) {
+            return SettingsPage();
+          },
+          AppRoutes.INFO_PAGE: (ctx) {
+            return InfoPage();
+          },
+        },
       ),
-      routes: {
-        AppRoutes.HOME: (ctx) {
-          return HomePage();
-        },
-        AppRoutes.SETTINGS_PAGE: (ctx) {
-          return SettingsPage();
-        },
-        AppRoutes.INFO_PAGE: (ctx) {
-          return InfoPage();
-        },
-      },
     );
   }
 }
