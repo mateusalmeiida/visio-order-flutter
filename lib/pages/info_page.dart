@@ -8,19 +8,15 @@ class InfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final double width;
     final double sizeImage;
-    final double widthText;
     if (MediaQuery.of(context).size.width <= 500) {
       width = 300;
       sizeImage = 70;
-      widthText = width - sizeImage - 20;
     } else if (MediaQuery.of(context).size.width <= 700) {
       width = 500;
       sizeImage = 100;
-      widthText = width - sizeImage - 20;
     } else {
       width = 700;
       sizeImage = 100;
-      widthText = width - sizeImage - 20;
     }
 
     return Scaffold(
@@ -79,16 +75,16 @@ class InfoPage extends StatelessWidget {
                     children: [
                       Text('Mateus de Almeida Ribeiro'),
                       SizedBox(
-                        width: widthText,
+                        width: width * 0.6,
                         child: FittedBox(
                           child: Text(
                             style: TextStyle(fontSize: 20),
-                            'github.com/mateusalmeiidagithub.com/mateusalmeiida',
+                            'github.com/mateusalmeiida',
                           ),
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
