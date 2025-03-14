@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:visio_order/components/app_icon.dart';
 import 'package:visio_order/components/select_algorithm.dart';
 import 'package:visio_order/data/colors_data.dart';
+import 'package:visio_order/utils/app_routes.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -20,7 +21,9 @@ class HomePage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(AppRoutes.INFO_PAGE);
+              },
               icon: Icon(
                 Icons.info,
                 size: 30,

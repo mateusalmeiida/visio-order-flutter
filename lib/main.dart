@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:visio_order/pages/home_page.dart';
+import 'package:visio_order/pages/info_page.dart';
 import 'package:visio_order/pages/settings_page.dart';
 import 'package:visio_order/utils/app_routes.dart';
 
@@ -30,7 +31,10 @@ class VisioOrder extends StatelessWidget {
         },
         AppRoutes.SETTINGS_PAGE: (ctx) {
           return SettingsPage();
-        }
+        },
+        AppRoutes.INFO_PAGE: (ctx) {
+          return InfoPage();
+        },
       },
     );
   }
