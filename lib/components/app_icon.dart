@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:visio_order/data/colors_data.dart';
 
@@ -7,13 +6,24 @@ class AppIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double _sideContainer =
-        kIsWeb && MediaQuery.of(context).size.width > 600 ? 25 : 20;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double sideContainer;
+
+    if (screenWidth <= 400) {
+      sideContainer = 20;
+    } else if (screenWidth <= 600) {
+      sideContainer = 22;
+    } else if (screenWidth <= 800) {
+      sideContainer = 23;
+    } else {
+      sideContainer = 25;
+    }
+
     return Column(
       children: [
         Container(
-          height: _sideContainer,
-          width: _sideContainer,
+          height: sideContainer,
+          width: sideContainer,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(3),
             gradient: LinearGradient(
@@ -24,14 +34,14 @@ class AppIcon extends StatelessWidget {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(right: _sideContainer),
+          margin: EdgeInsets.only(right: sideContainer),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 margin: EdgeInsets.only(top: 2, right: 2),
-                height: _sideContainer,
-                width: _sideContainer,
+                height: sideContainer,
+                width: sideContainer,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(3),
                   gradient: LinearGradient(
@@ -43,8 +53,8 @@ class AppIcon extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.only(top: 2, right: 2),
-                height: _sideContainer,
-                width: _sideContainer,
+                height: sideContainer,
+                width: sideContainer,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(3),
                   gradient: LinearGradient(
@@ -56,8 +66,8 @@ class AppIcon extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.only(top: 2, right: 2),
-                height: _sideContainer,
-                width: _sideContainer,
+                height: sideContainer,
+                width: sideContainer,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(3),
                   gradient: LinearGradient(
@@ -69,8 +79,8 @@ class AppIcon extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.only(top: 2, right: 2),
-                height: _sideContainer,
-                width: _sideContainer,
+                height: sideContainer,
+                width: sideContainer,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(3),
                   gradient: LinearGradient(

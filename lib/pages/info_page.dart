@@ -6,25 +6,37 @@ class InfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double width;
+    final double screenWidth = MediaQuery.of(context).size.width;
+
+    final double widthContainerText;
     final double sizeImage;
-    final double widthText;
+    final double widthContainerName;
     final double fontSize;
-    if (MediaQuery.of(context).size.width <= 500) {
-      width = 300;
+    if (screenWidth <= 400) {
+      widthContainerText = 300;
       sizeImage = 70;
-      widthText = width * 0.6;
+      widthContainerName = widthContainerText * 0.6;
       fontSize = 16;
-    } else if (MediaQuery.of(context).size.width <= 700) {
-      width = 450;
+    } else if (screenWidth <= 600) {
+      widthContainerText = 425;
+      sizeImage = 85;
+      widthContainerName = widthContainerText * 0.5;
+      fontSize = 17;
+    } else if (screenWidth <= 800) {
+      widthContainerText = 450;
       sizeImage = 100;
-      widthText = width * 0.4;
-      fontSize = 16;
-    } else {
-      width = 650;
-      sizeImage = 100;
-      widthText = width * 0.3;
+      widthContainerName = widthContainerText * 0.5;
       fontSize = 18;
+    } else if (screenWidth <= 1000) {
+      widthContainerText = 500;
+      sizeImage = 115;
+      widthContainerName = widthContainerText * 0.45;
+      fontSize = 20;
+    } else {
+      widthContainerText = 650;
+      sizeImage = 130;
+      widthContainerName = widthContainerText * 0.35;
+      fontSize = 22;
     }
 
     return Scaffold(
@@ -53,7 +65,7 @@ class InfoPage extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: width,
+              width: widthContainerText,
               child: Text(
                   style: TextStyle(fontSize: fontSize),
                   textAlign: TextAlign.justify,
@@ -67,7 +79,7 @@ class InfoPage extends StatelessWidget {
             Container(
               padding: EdgeInsets.only(top: 50),
               alignment: Alignment.topLeft,
-              width: width,
+              width: widthContainerText,
               child: Row(
                 children: [
                   ClipOval(
@@ -83,7 +95,7 @@ class InfoPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        width: widthText,
+                        width: widthContainerName,
                         child: FittedBox(
                           child: Text(
                             'Mateus de Almeida Ribeiro',
@@ -95,10 +107,9 @@ class InfoPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: widthText,
+                        width: widthContainerName,
                         child: FittedBox(
                           child: Text(
-                            style: TextStyle(fontSize: 20),
                             'github.com/mateusalmeiida',
                           ),
                         ),
