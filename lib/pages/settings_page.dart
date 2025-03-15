@@ -30,9 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final double maxSizeVector =
         (kIsWeb && MediaQuery.of(context).size.width >= 700) ? 20 : 10;
     if (vectorSize > maxSizeVector) {
-      setState(() {
-        vectorSize = maxSizeVector.toInt();
-      });
+      vectorSize = maxSizeVector.toInt();
     }
     if (MediaQuery.of(context).size.width <= 500) {
       margin = 40;
