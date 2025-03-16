@@ -5,6 +5,8 @@ import 'package:visio_order/components/app_icon.dart';
 import 'package:visio_order/components/manual_values_form.dart';
 import 'package:visio_order/data/colors_data.dart';
 import 'package:visio_order/models/data_list.dart';
+import 'package:visio_order/utils/app_routes.dart';
+import 'package:visio_order/utils/generate_random.dart';
 
 enum RunMode { random, manual }
 
@@ -16,6 +18,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late int _vectorSize;
   late RunMode _runMode;
 
@@ -37,6 +40,19 @@ class _SettingsPageState extends State<SettingsPage> {
       _runMode = RunMode.random;
       FocusScope.of(context).unfocus();
     });
+  }
+
+  void _submitForm() {
+    if (_formKey.currentState?.validate() ?? false) {
+      _formKey.currentState?.save();
+      Navigator.of(context).pushNamed(AppRoutes.PREVIWE_PAGE);
+    }
+  }
+
+  void _generateRandom(int length) {
+    final List<int> list = GenerateRandom.generateRandomVector(length);
+    Provider.of<DataList>(context, listen: false).setDataList(list);
+    Navigator.of(context).pushNamed(AppRoutes.PREVIWE_PAGE);
   }
 
   @override
@@ -217,7 +233,10 @@ class _SettingsPageState extends State<SettingsPage> {
                       opacity: _runMode == RunMode.manual ? 1 : 0,
                       child: Container(
                         padding: EdgeInsets.only(left: 10),
-                        child: ManualValuesForm(),
+                        child: ManualValuesForm(
+                          length: _vectorSize,
+                          formKey: _formKey,
+                        ),
                       ),
                     ),
                   ),
@@ -240,7 +259,11 @@ class _SettingsPageState extends State<SettingsPage> {
                         backgroundColor: WidgetStateProperty.all(
                             ColorsData.colorsAlgorithm[algorithm]?[1]),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        _runMode == RunMode.manual
+                            ? _submitForm()
+                            : _generateRandom(_vectorSize);
+                      },
                       child: FittedBox(
                         child: Text(
                           'Visualizar',

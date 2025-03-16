@@ -30,8 +30,14 @@ class DataList with ChangeNotifier {
     }
   }
 
-  List<int> get dataList {
+  List<int> get getDataList {
     return [..._dataList];
+  }
+
+  void setDataList(List<int> list) {
+    _dataList.clear();
+    _dataList.addAll(list);
+    notifyListeners();
   }
 
   List<String> get algorithmList {

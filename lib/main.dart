@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:visio_order/models/data_list.dart';
 import 'package:visio_order/pages/home_page.dart';
 import 'package:visio_order/pages/info_page.dart';
+import 'package:visio_order/pages/preview_page.dart';
 import 'package:visio_order/pages/settings_page.dart';
 import 'package:visio_order/utils/app_routes.dart';
 
@@ -39,6 +40,9 @@ class VisioOrder extends StatelessWidget {
           },
           AppRoutes.INFO_PAGE: (ctx) {
             return InfoPage();
+          },
+          AppRoutes.PREVIWE_PAGE: (ctx) {
+            return PreviewPage();
           },
         },
       ),
