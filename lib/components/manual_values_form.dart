@@ -30,8 +30,7 @@ class _ManualValuesFormState extends State<ManualValuesForm> {
           ],
           decoration: InputDecoration(
             errorMaxLines: 2,
-            helperText:
-                'O valor máximo aceito é de 99, valores maiores serão ajustados.',
+            helperText: 'O valor máximo aceito é de 99',
             border: InputBorder.none,
             contentPadding: EdgeInsets.only(left: 20),
             labelText: 'Ex: 7,8,9,8,43,21',

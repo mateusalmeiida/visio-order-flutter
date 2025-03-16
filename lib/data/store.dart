@@ -7,7 +7,7 @@ class Store {
   }
 
   static Future<String> getString(String key,
-      [String defaultValue = 'Bubble Sort']) async {
+      [String defaultValue = '']) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(key) ?? defaultValue;
   }
