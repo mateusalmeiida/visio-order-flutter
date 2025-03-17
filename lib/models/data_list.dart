@@ -17,6 +17,7 @@ class DataList with ChangeNotifier {
 
   void setAlgorithm(String algorithm) {
     _algorithm = algorithm;
+    notifyListeners();
   }
 
   List<int> get getDataList {

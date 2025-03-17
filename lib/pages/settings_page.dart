@@ -62,10 +62,11 @@ class _SettingsPageState extends State<SettingsPage> {
     final double fontSize;
     final double iconContainerSize;
     final double paddingIconContainerSize;
-    final double maxSizeVector = (kIsWeb && screenWidth >= 600) ? 15 : 7;
+    final double maxSizeVector = (kIsWeb && screenWidth >= 600) ? 15 : 8;
     if (_vectorSize > maxSizeVector) {
       _vectorSize = maxSizeVector.toInt();
     }
+
     if (screenWidth <= 400) {
       iconContainerSize = 25;
       paddingIconContainerSize = 1.5;
@@ -97,12 +98,13 @@ class _SettingsPageState extends State<SettingsPage> {
       margin = 90;
       paddingButton = 35;
     }
-
-    final style = TextStyle(
-        fontFamily: 'RobotoCondensed', fontSize: fontSize, color: Colors.black);
-
     final algorithm =
         Provider.of<DataList>(context, listen: false).getAlgorithm;
+
+    final style = TextStyle(
+        fontFamily: 'BebasNeue',
+        fontSize: fontSize,
+        color: ColorsData.colorsAlgorithm[algorithm]?[1]);
 
     if (algorithm.isEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {

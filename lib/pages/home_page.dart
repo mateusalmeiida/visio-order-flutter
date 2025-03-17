@@ -35,9 +35,9 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: Column(children: [
-        SizedBox(height: 40),
+        SizedBox(height: 30),
         AppIcon(),
-        SizedBox(height: 40),
+        SizedBox(height: 30),
         Expanded(
           child: ListView.builder(
               itemCount: algorithmList.length,

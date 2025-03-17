@@ -10,9 +10,25 @@ class SelectAlgorithm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width < 600
-        ? MediaQuery.of(context).size.width * 0.85
-        : MediaQuery.of(context).size.width * 0.6;
+    final double width;
+    final double fontSize;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    if (screenWidth <= 400) {
+      fontSize = 25;
+      width = screenWidth * 0.85;
+    } else if (screenWidth <= 600) {
+      fontSize = 26;
+      width = screenWidth * 0.85;
+    } else if (screenWidth <= 800) {
+      fontSize = 28;
+      width = screenWidth * 0.6;
+    } else if (screenWidth <= 1000) {
+      width = screenWidth * 0.6;
+      fontSize = 28;
+    } else {
+      fontSize = 30;
+      width = screenWidth * 0.5;
+    }
     final height =
         (MediaQuery.of(context).orientation == Orientation.landscape) &&
                 MediaQuery.of(context).size.height < 600
@@ -39,7 +55,7 @@ class SelectAlgorithm extends StatelessWidget {
               algorithm,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 25,
+                fontSize: fontSize,
                 fontFamily: 'BebasNeue',
               ),
             ),
