@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:visio_order/components/app_icon.dart';
 import 'package:visio_order/components/manual_values_form.dart';
 import 'package:visio_order/data/colors_data.dart';
 import 'package:visio_order/models/data_list.dart';
@@ -58,10 +57,6 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-
-    Provider.of<DataList>(context, listen: false).loadAlgorithm;
-    final algorithm = Provider.of<DataList>(context).getAlgorithm;
-
     final double paddingButton;
     final double margin;
     final double fontSize;
@@ -106,6 +101,16 @@ class _SettingsPageState extends State<SettingsPage> {
     final style = TextStyle(
         fontFamily: 'RobotoCondensed', fontSize: fontSize, color: Colors.black);
 
+    final algorithm =
+        Provider.of<DataList>(context, listen: false).getAlgorithm;
+
+    if (algorithm.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
+      });
+      return const SizedBox(); // Retorna um widget vazio temporário
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(algorithm),
@@ -122,9 +127,7 @@ class _SettingsPageState extends State<SettingsPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20),
-            AppIcon(),
-            SizedBox(height: 40),
+            SizedBox(height: 50),
             Container(
               margin: EdgeInsets.symmetric(horizontal: margin),
               width: double.infinity,

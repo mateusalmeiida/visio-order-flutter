@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:visio_order/data/store.dart';
 
 class DataList with ChangeNotifier {
   final List<int> _dataList = [];
@@ -10,14 +9,7 @@ class DataList with ChangeNotifier {
     'Merge Sort',
     'Quick Sort',
   ];
-  String _algorithm = 'Bubble Sort';
-
-  Future<void> get loadAlgorithm async {
-    if (kIsWeb) {
-      _algorithm = await Store.getString('alg');
-      notifyListeners();
-    }
-  }
+  String _algorithm = '';
 
   String get getAlgorithm {
     return _algorithm;
@@ -25,9 +17,6 @@ class DataList with ChangeNotifier {
 
   void setAlgorithm(String algorithm) {
     _algorithm = algorithm;
-    if (kIsWeb) {
-      Store.saveString('alg', algorithm);
-    }
   }
 
   List<int> get getDataList {

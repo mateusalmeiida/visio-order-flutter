@@ -12,22 +12,20 @@ class PreviewPage extends StatefulWidget {
 }
 
 class _PreviewPageState extends State<PreviewPage> {
-  late List<int> vector;
   @override
-  void initState() {
-    super.initState();
-    vector = Provider.of<DataList>(context, listen: false).getDataList;
-    if (vector.isEmpty) {
+  Widget build(BuildContext context) {
+    List<int> vector =
+        Provider.of<DataList>(context, listen: false).getDataList;
+    final algorithm =
+        Provider.of<DataList>(context, listen: false).getAlgorithm;
+
+    if (vector.isEmpty && algorithm.isEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.of(context).pushNamed(AppRoutes.HOME);
       });
-    }
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    Provider.of<DataList>(context, listen: false).loadAlgorithm;
-    final algorithm = Provider.of<DataList>(context).getAlgorithm;
+      return const SizedBox();
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(algorithm),
