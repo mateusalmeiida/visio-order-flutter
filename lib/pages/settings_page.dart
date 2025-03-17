@@ -56,6 +56,15 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final algorithm =
+        Provider.of<DataList>(context, listen: false).getAlgorithm;
+
+    if (algorithm.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
+      });
+      return const SizedBox();
+    }
     final double screenWidth = MediaQuery.of(context).size.width;
     final double paddingButton;
     final double margin;
@@ -98,20 +107,11 @@ class _SettingsPageState extends State<SettingsPage> {
       margin = 90;
       paddingButton = 35;
     }
-    final algorithm =
-        Provider.of<DataList>(context, listen: false).getAlgorithm;
 
     final style = TextStyle(
         fontFamily: 'BebasNeue',
         fontSize: fontSize,
         color: ColorsData.colorsAlgorithm[algorithm]?[1]);
-
-    if (algorithm.isEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
-      });
-      return const SizedBox(); // Retorna um widget vazio temporário
-    }
 
     return Scaffold(
       appBar: AppBar(
