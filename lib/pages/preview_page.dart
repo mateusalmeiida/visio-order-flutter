@@ -257,6 +257,7 @@ class _PreviewPageState extends State<PreviewPage> {
                     ),
                   ],
                 ),
+              SizedBox(height: 20),
             ],
           ),
         ));
