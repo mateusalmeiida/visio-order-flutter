@@ -35,8 +35,11 @@ class _PreviewPageState extends State<PreviewPage> {
     });
   }
 
-  void _refreshAnimation() {
+  void _backupVector() {
     Provider.of<DataList>(context, listen: false).setDataList(_listBackup);
+  }
+
+  void _refreshAnimation() {
     setState(() {
       _stateAnimation = StateAnimation.notStarted;
     });
@@ -212,6 +215,7 @@ class _PreviewPageState extends State<PreviewPage> {
                       children: [
                         IconButton(
                           onPressed: () {
+                            _backupVector();
                             _refreshAnimation();
                           },
                           icon: Icon(
@@ -222,6 +226,7 @@ class _PreviewPageState extends State<PreviewPage> {
                         ),
                         TextButton(
                           onPressed: () {
+                            _backupVector();
                             _refreshAnimation();
                           },
                           child: Text(
