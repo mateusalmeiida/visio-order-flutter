@@ -5,6 +5,7 @@ import 'package:visio_order/pages/home_page.dart';
 import 'package:visio_order/pages/info_page.dart';
 import 'package:visio_order/pages/preview_page.dart';
 import 'package:visio_order/pages/settings_page.dart';
+import 'package:visio_order/utils/algorithms.dart';
 import 'package:visio_order/utils/app_routes.dart';
 
 void main() {
@@ -16,8 +17,16 @@ class VisioOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => DataList(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => DataList()),
+        ChangeNotifierProxyProvider<DataList, Algorithms>(
+          create: (_) => Algorithms(DataList()),
+          update: (ctx, dataList, previous) {
+            return Algorithms(dataList);
+          },
+        )
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Visio Order',

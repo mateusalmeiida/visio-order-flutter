@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:visio_order/components/items_vector.dart';
 import 'package:visio_order/data/colors_data.dart';
 import 'package:visio_order/models/data_list.dart';
+import 'package:visio_order/utils/algorithms.dart';
 import 'package:visio_order/utils/app_routes.dart';
 import 'package:visio_order/utils/generate_random.dart';
 
@@ -22,12 +21,12 @@ class _PreviewPageState extends State<PreviewPage> {
   int _indexSpeed = 1;
   StateAnimation _stateAnimation = StateAnimation.notStarted;
 
-  void _startAnimation() {
+  void _startAnimation(String algorithm, List<int> list) {
     setState(() {
       _stateAnimation = StateAnimation.running;
     });
 
-    Timer(Duration(seconds: 3), () {
+    Provider.of<Algorithms>(context, listen: false).sort().then((_) {
       setState(() {
         _stateAnimation = StateAnimation.finished;
       });
@@ -129,7 +128,7 @@ class _PreviewPageState extends State<PreviewPage> {
                           ColorsData.colorsAlgorithm[algorithm]?[1]),
                     ),
                     onPressed: () {
-                      _startAnimation();
+                      _startAnimation(algorithm, vector);
                     },
                     child: FittedBox(
                       child: Row(
