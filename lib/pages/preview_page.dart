@@ -18,10 +18,12 @@ class PreviewPage extends StatefulWidget {
 
 class _PreviewPageState extends State<PreviewPage> {
   final List<double> _speedAnimation = [0.5, 1.0, 1.5, 2.0];
+  late List<int> _listBackup;
   int _indexSpeed = 1;
   StateAnimation _stateAnimation = StateAnimation.notStarted;
 
   void _startAnimation(String algorithm, List<int> list) {
+    _listBackup = list;
     setState(() {
       _stateAnimation = StateAnimation.running;
     });
@@ -34,6 +36,7 @@ class _PreviewPageState extends State<PreviewPage> {
   }
 
   void _refreshAnimation() {
+    Provider.of<DataList>(context, listen: false).setDataList(_listBackup);
     setState(() {
       _stateAnimation = StateAnimation.notStarted;
     });
