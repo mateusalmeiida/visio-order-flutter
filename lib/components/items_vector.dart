@@ -3,21 +3,24 @@ import 'package:visio_order/data/colors_data.dart';
 
 class ItemsVector extends StatelessWidget {
   final String algorithm;
+  final int index;
   final int value;
   final int length;
-  const ItemsVector(
-      {required this.length,
-      required this.value,
-      required this.algorithm,
-      super.key});
+  const ItemsVector({
+    required this.index,
+    required this.length,
+    required this.value,
+    required this.algorithm,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double sizeContainer = screenWidth / length;
-    final double margin = sizeContainer > 100 ? 100 : sizeContainer;
-    return Container(
-      margin: EdgeInsets.only(top: margin, bottom: margin),
+    final double sizeContainer =
+        (screenWidth / length) > 100 ? 100 : (screenWidth / length);
+    return Positioned(
+      left: sizeContainer * index,
       child: Container(
         constraints: BoxConstraints(maxHeight: 100, maxWidth: 100),
         padding: EdgeInsets.all(5),

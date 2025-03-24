@@ -37,10 +37,10 @@ class Algorithms with ChangeNotifier {
           list[index] = list[index + 1];
           list[index + 1] = temp;
         }
+        await Future.delayed(Duration(milliseconds: 300), () {
+          dataList.setDataList(list);
+        });
       }
-      await Future.delayed(Duration(milliseconds: 500), () {
-        dataList.setDataList(list);
-      });
     }
   }
 

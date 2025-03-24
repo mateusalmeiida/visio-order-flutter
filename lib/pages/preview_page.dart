@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:visio_order/components/items_vector.dart';
+import 'package:visio_order/components/vector.dart';
 import 'package:visio_order/data/colors_data.dart';
 import 'package:visio_order/models/data_list.dart';
 import 'package:visio_order/utils/algorithms.dart';
@@ -69,6 +69,7 @@ class _PreviewPageState extends State<PreviewPage> {
     final double paddingButton;
     final double fontSize;
     final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     if (screenWidth <= 400) {
       fontSize = 24;
       paddingButton = 10;
@@ -108,18 +109,11 @@ class _PreviewPageState extends State<PreviewPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 10),
+              SizedBox(height: screenHeight * 0.15),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: vector.map((value) {
-                  return ItemsVector(
-                    length: vector.length,
-                    algorithm: algorithm,
-                    value: value,
-                  );
-                }).toList(),
-              ),
-              SizedBox(height: 10),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Vector(vector: vector, algorithm: algorithm)]),
+              SizedBox(height: screenHeight * 0.15),
               if (_stateAnimation == StateAnimation.notStarted)
                 Container(
                   alignment: Alignment.center,
