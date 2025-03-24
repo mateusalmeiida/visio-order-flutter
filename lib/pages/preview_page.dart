@@ -53,6 +53,18 @@ class _PreviewPageState extends State<PreviewPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    print(_stateAnimation);
+  }
+
+  @override
+  void dispose() {
+    print(_stateAnimation);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<int> vector = Provider.of<DataList>(context).getDataList;
     final algorithm =
