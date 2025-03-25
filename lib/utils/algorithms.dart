@@ -9,10 +9,10 @@ class Algorithms with ChangeNotifier {
 
   Algorithms(this.dataList);
 
-  Future<void> sort() async {
+  Future<void> sort(Function setList) async {
     switch (dataList.getAlgorithm) {
       case 'Bubble Sort':
-        await _bubbleSort(dataList.getDataList);
+        await _bubbleSort(dataList.getDataList, setList);
         break;
       case 'Selection Sort':
         await _selectionSort(dataList.getDataList);
@@ -29,7 +29,7 @@ class Algorithms with ChangeNotifier {
     }
   }
 
-  Future<void> _bubbleSort(List<int> list) async {
+  Future<void> _bubbleSort(List<int> list, Function setList) async {
     for (int pass = list.length - 1; pass > 0; pass--) {
       for (int index = 0; index < pass; index++) {
         if (list[index] > list[index + 1]) {
@@ -38,7 +38,7 @@ class Algorithms with ChangeNotifier {
           list[index + 1] = temp;
         }
         await Future.delayed(Duration(milliseconds: 300), () {
-          dataList.setDataList(list);
+          if (setList(list)) return;
         });
       }
     }

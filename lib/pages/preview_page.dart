@@ -21,6 +21,14 @@ class _PreviewPageState extends State<PreviewPage> {
   late List<int> _listBackup;
   int _indexSpeed = 1;
   StateAnimation _stateAnimation = StateAnimation.notStarted;
+  bool _isDispose = false;
+
+  bool _setList(List<int> list) {
+    if (mounted) {
+      Provider.of<DataList>(context, listen: false).setDataList(list);
+    }
+    return _isDispose;
+  }
 
   void _startAnimation(String algorithm, List<int> list) {
     _listBackup = list;
@@ -28,10 +36,12 @@ class _PreviewPageState extends State<PreviewPage> {
       _stateAnimation = StateAnimation.running;
     });
 
-    Provider.of<Algorithms>(context, listen: false).sort().then((_) {
-      setState(() {
-        _stateAnimation = StateAnimation.finished;
-      });
+    Provider.of<Algorithms>(context, listen: false).sort(_setList).then((_) {
+      if (mounted) {
+        setState(() {
+          _stateAnimation = StateAnimation.finished;
+        });
+      }
     });
   }
 
@@ -55,12 +65,11 @@ class _PreviewPageState extends State<PreviewPage> {
   @override
   void initState() {
     super.initState();
-    print(_stateAnimation);
   }
 
   @override
   void dispose() {
-    print(_stateAnimation);
+    _isDispose = true;
     super.dispose();
   }
 
