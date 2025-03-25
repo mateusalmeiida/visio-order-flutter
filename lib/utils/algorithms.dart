@@ -15,16 +15,16 @@ class Algorithms with ChangeNotifier {
         await _bubbleSort(dataList.getDataList, setList);
         break;
       case 'Selection Sort':
-        await _selectionSort(dataList.getDataList);
+        await _selectionSort(dataList.getDataList, setList);
         break;
       case 'Insertion Sort':
-        await _insertionSort(dataList.getDataList);
+        await _insertionSort(dataList.getDataList, setList);
         break;
       case 'Merge Sort':
-        await _mergeSort(dataList.getDataList);
+        await _mergeSort(dataList.getDataList, setList);
         break;
       case 'Quick Sort':
-        await _quickSort(dataList.getDataList);
+        await _quickSort(dataList.getDataList, setList);
         break;
     }
   }
@@ -44,7 +44,7 @@ class Algorithms with ChangeNotifier {
     }
   }
 
-  Future<void> _selectionSort(List<int> list) async {
+  Future<void> _selectionSort(List<int> list, Function setList) async {
     for (int i = 0; i < list.length; i++) {
       int minIndex = i;
       for (int j = i + 1; j < list.length; j++) {
@@ -58,12 +58,12 @@ class Algorithms with ChangeNotifier {
         list[minIndex] = temp;
       }
       await Future.delayed(Duration(milliseconds: 500), () {
-        dataList.setDataList(list);
+        if (setList(list)) return;
       });
     }
   }
 
-  Future<void> _insertionSort(List<int> list) async {
+  Future<void> _insertionSort(List<int> list, Function setList) async {
     for (int index = 1; index < list.length; index++) {
       int currentValue = list[index];
       int position = index;
@@ -76,19 +76,19 @@ class Algorithms with ChangeNotifier {
       list[position] = currentValue;
 
       await Future.delayed(Duration(milliseconds: 500), () {
-        dataList.setDataList(list);
+        if (setList(list)) return;
       });
     }
   }
 
-  Future<void> _mergeSort(List<int> list) async {
+  Future<void> _mergeSort(List<int> list, Function setList) async {
     if (list.length > 1) {
       int mid = list.length ~/ 2;
       List<int> lefthalf = list.sublist(0, mid);
       List<int> righthalf = list.sublist(mid);
 
-      await _mergeSort(lefthalf);
-      await _mergeSort(righthalf);
+      await _mergeSort(lefthalf, setList);
+      await _mergeSort(righthalf, setList);
 
       int i = 0, j = 0, k = 0;
       while (i < lefthalf.length && j < righthalf.length) {
@@ -115,23 +115,25 @@ class Algorithms with ChangeNotifier {
       }
     }
     await Future.delayed(Duration(milliseconds: 500), () {
-      dataList.setDataList(list);
+      if (setList(list)) return;
     });
   }
 
-  Future<void> _quickSort(List<int> list) async {
-    await _quickSortHelper(list, 0, list.length - 1);
+  Future<void> _quickSort(List<int> list, Function setList) async {
+    await _quickSortHelper(list, 0, list.length - 1, setList);
   }
 
-  Future<void> _quickSortHelper(List<int> list, int first, int last) async {
+  Future<void> _quickSortHelper(
+      List<int> list, int first, int last, Function setList) async {
     if (first < last) {
-      int splitpoint = await partition(list, first, last);
-      await _quickSortHelper(list, first, splitpoint - 1);
-      await _quickSortHelper(list, splitpoint + 1, last);
+      int splitpoint = await partition(list, first, last, setList);
+      await _quickSortHelper(list, first, splitpoint - 1, setList);
+      await _quickSortHelper(list, splitpoint + 1, last, setList);
     }
   }
 
-  Future<int> partition(List<int> list, int first, int last) async {
+  Future<int> partition(
+      List<int> list, int first, int last, Function setList) async {
     int pivotValue = list[first];
     int leftMark = first + 1;
     int rightMark = last;
@@ -161,7 +163,7 @@ class Algorithms with ChangeNotifier {
     list[rightMark] = temp;
 
     await Future.delayed(Duration(milliseconds: 500), () {
-      dataList.setDataList(list);
+      if (setList(list)) return;
     });
 
     return rightMark;
