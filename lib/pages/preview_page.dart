@@ -17,11 +17,16 @@ class PreviewPage extends StatefulWidget {
 }
 
 class _PreviewPageState extends State<PreviewPage> {
+  final GlobalKey<VectorState> _vectorKey = GlobalKey<VectorState>();
   final List<double> _speedAnimation = [0.5, 1.0, 1.5, 2.0];
   late List<int> _listBackup;
   int _indexSpeed = 1;
   StateAnimation _stateAnimation = StateAnimation.notStarted;
   bool _isDispose = false;
+
+  /*void swap(int index1, int index2) {
+    _vectorKey.currentState?.swapContainer(index1, index2);
+  }*/
 
   bool _setList(List<int> list) {
     if (mounted) {
@@ -36,7 +41,9 @@ class _PreviewPageState extends State<PreviewPage> {
       _stateAnimation = StateAnimation.running;
     });
 
-    Provider.of<Algorithms>(context, listen: false).sort(_setList).then((_) {
+    Provider.of<Algorithms>(context, listen: false)
+        .sort(_setList, _vectorKey)
+        .then((_) {
       if (mounted) {
         setState(() {
           _stateAnimation = StateAnimation.finished;
@@ -131,9 +138,9 @@ class _PreviewPageState extends State<PreviewPage> {
           child: Column(
             children: [
               SizedBox(height: screenHeight * 0.15),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Vector(vector: vector, algorithm: algorithm)]),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Vector(key: _vectorKey, vector: vector, algorithm: algorithm)
+              ]),
               SizedBox(height: screenHeight * 0.15),
               if (_stateAnimation == StateAnimation.notStarted)
                 Container(
