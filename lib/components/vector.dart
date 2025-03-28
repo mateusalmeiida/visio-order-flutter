@@ -38,19 +38,23 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
         indexAnimate.clear();
       }
     });
-    generateAnimation();
   }
 
   void generateAnimation() {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double sizeContainer = (screenWidth / widget.vector.length) > 100
+        ? 100
+        : (screenWidth / widget.vector.length);
+
     _animations = List.generate(widget.vector.length, (index) {
       double begin = 0.0;
       double end = 0.0;
 
       if (indexAnimate.contains(index)) {
         if (index == indexAnimate[0]) {
-          end = 100.0;
+          end = sizeContainer;
         } else if (index == indexAnimate[1]) {
-          end = -100.0;
+          end = -sizeContainer;
         }
       }
 
@@ -70,6 +74,12 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     generateAnimation();
     startAnimation();
     await Future.delayed(Duration(milliseconds: 850));
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    generateAnimation(); // Agora, chamamos generateAnimation() após ter acesso ao contexto
   }
 
   @override
