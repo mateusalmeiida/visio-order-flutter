@@ -28,8 +28,8 @@ class _PreviewPageState extends State<PreviewPage> {
     _vectorKey.currentState?.swapContainer(index1, index2);
   }*/
 
-  bool _setList(List<int> list) {
-    if (mounted) {
+  bool _setList(List<int> list, bool set) {
+    if (mounted && set) {
       Provider.of<DataList>(context, listen: false).setDataList(list);
     }
     return _isDispose;

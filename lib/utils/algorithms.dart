@@ -38,11 +38,14 @@ class Algorithms with ChangeNotifier {
           int temp = list[index];
           list[index] = list[index + 1];
           list[index + 1] = temp;
-          vectorKey.currentState?.swapContainer(index, index + 1);
+
+          await vectorKey.currentState?.swapContainer(index, index + 1);
+          if (setList(list, true)) return;
+        } else {
+          await Future.delayed(Duration(milliseconds: 850), () {
+            if (setList(list, false)) return;
+          });
         }
-        await Future.delayed(Duration(milliseconds: 1000), () {
-          if (setList(list)) return;
-        });
       }
     }
   }
