@@ -28,7 +28,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     super.initState();
 
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 600),
       vsync: this,
     );
 
