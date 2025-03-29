@@ -34,6 +34,9 @@ class Algorithms with ChangeNotifier {
       GlobalKey<VectorState> vectorKey) async {
     for (int pass = list.length - 1; pass > 0; pass--) {
       for (int index = 0; index < pass; index++) {
+        vectorKey.currentState
+            ?.changeIcon(index, index + 1, list[index], list[index + 1]);
+        await vectorKey.currentState?.changeOpacity(index, index + 1);
         if (list[index] > list[index + 1]) {
           int temp = list[index];
           list[index] = list[index + 1];
@@ -41,6 +44,8 @@ class Algorithms with ChangeNotifier {
 
           await vectorKey.currentState?.swapContainer(index, index + 1);
           if (setList(list, true)) return;
+        } else {
+          await Future.delayed(Duration(milliseconds: 850));
         }
       }
     }

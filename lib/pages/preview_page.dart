@@ -137,9 +137,13 @@ class _PreviewPageState extends State<PreviewPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: screenHeight * 0.15),
+              SizedBox(height: screenHeight * 0.12),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Vector(key: _vectorKey, vector: vector, algorithm: algorithm)
+                Vector(
+                  key: _vectorKey,
+                  vector: vector,
+                  algorithm: algorithm,
+                )
               ]),
               SizedBox(height: screenHeight * 0.15),
               if (_stateAnimation == StateAnimation.notStarted)

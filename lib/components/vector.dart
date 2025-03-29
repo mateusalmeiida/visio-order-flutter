@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:visio_order/components/items_vector.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Vector extends StatefulWidget {
   final List<int> vector;
   final String algorithm;
-  const Vector({required this.vector, required this.algorithm, super.key});
+  const Vector({
+    required this.vector,
+    required this.algorithm,
+    super.key,
+  });
 
   @override
   State<Vector> createState() => VectorState();
@@ -14,6 +19,8 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late List<Animation<double>> _animations;
   List<int> indexAnimate = [];
+  late List<IconData> icons;
+  late List<double> opacity;
 
   @override
   void initState() {
@@ -38,6 +45,40 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
         indexAnimate.clear();
       }
     });
+
+    icons = List.generate(widget.vector.length, (_) {
+      return FontAwesomeIcons.equals;
+    });
+    opacity = List.generate(widget.vector.length, (_) {
+      return 0.0;
+    });
+  }
+
+  void changeIcon(int index, int index2, int value, int value2) {
+    if (value > value2) {
+      icons[index] = FontAwesomeIcons.solidCircleUp;
+      icons[index2] = FontAwesomeIcons.solidCircleDown;
+    } else if (value2 > value) {
+      icons[index2] = FontAwesomeIcons.solidCircleUp;
+      icons[index] = FontAwesomeIcons.solidCircleDown;
+    } else {
+      icons[index2] = FontAwesomeIcons.equals;
+      icons[index] = FontAwesomeIcons.equals;
+    }
+  }
+
+  Future<void> changeOpacity(int index, int index2) async {
+    if (index < 0 || index >= opacity.length) return;
+    setState(() {
+      opacity[index] = 1;
+      opacity[index2] = 1;
+    });
+    await Future.delayed(Duration(milliseconds: 500));
+    setState(() {
+      opacity[index] = 0;
+      opacity[index2] = 0;
+    });
+    await Future.delayed(Duration(milliseconds: 500));
   }
 
   void generateAnimation() {
@@ -105,7 +146,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
         : (screenWidth / widget.vector.length);
     return SizedBox(
       width: sizeContainer * widget.vector.length,
-      height: sizeContainer,
+      height: sizeContainer * 1.4,
       child: Stack(
         children: widget.vector.asMap().entries.map((entry) {
           int index = entry.key;
@@ -116,10 +157,13 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
                 return Positioned(
                   left: position + (index * sizeContainer),
                   child: ItemsVector(
-                      index: index,
-                      length: widget.vector.length,
-                      value: entry.value,
-                      algorithm: widget.algorithm),
+                    index: index,
+                    length: widget.vector.length,
+                    value: entry.value,
+                    algorithm: widget.algorithm,
+                    opacity: opacity[index],
+                    iconData: icons[index],
+                  ),
                 );
               });
         }).toList(),
