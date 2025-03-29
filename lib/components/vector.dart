@@ -51,10 +51,11 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
       double end = 0.0;
 
       if (indexAnimate.contains(index)) {
+        int def = indexAnimate[1] - indexAnimate[0];
         if (index == indexAnimate[0]) {
-          end = sizeContainer;
+          end = sizeContainer * def;
         } else if (index == indexAnimate[1]) {
-          end = -sizeContainer;
+          end = -sizeContainer * def;
         }
       }
 
@@ -79,7 +80,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    generateAnimation(); // Agora, chamamos generateAnimation() após ter acesso ao contexto
+    generateAnimation();
   }
 
   @override

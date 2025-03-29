@@ -16,10 +16,10 @@ class Algorithms with ChangeNotifier {
         await _bubbleSort(dataList.getDataList, setList, vectorKey);
         break;
       case 'Selection Sort':
-        await _selectionSort(dataList.getDataList, setList);
+        await _selectionSort(dataList.getDataList, setList, vectorKey);
         break;
       case 'Insertion Sort':
-        await _insertionSort(dataList.getDataList, setList);
+        await _insertionSort(dataList.getDataList, setList, vectorKey);
         break;
       case 'Merge Sort':
         await _mergeSort(dataList.getDataList, setList);
@@ -41,16 +41,13 @@ class Algorithms with ChangeNotifier {
 
           await vectorKey.currentState?.swapContainer(index, index + 1);
           if (setList(list, true)) return;
-        } else {
-          await Future.delayed(Duration(milliseconds: 850), () {
-            if (setList(list, false)) return;
-          });
         }
       }
     }
   }
 
-  Future<void> _selectionSort(List<int> list, Function setList) async {
+  Future<void> _selectionSort(List<int> list, Function setList,
+      GlobalKey<VectorState> vectorKey) async {
     for (int i = 0; i < list.length; i++) {
       int minIndex = i;
       for (int j = i + 1; j < list.length; j++) {
@@ -59,31 +56,29 @@ class Algorithms with ChangeNotifier {
         }
       }
       if (minIndex != i) {
+        await vectorKey.currentState?.swapContainer(i, minIndex);
         int temp = list[i];
         list[i] = list[minIndex];
         list[minIndex] = temp;
+        if (setList(list, true)) return;
       }
-      await Future.delayed(Duration(milliseconds: 500), () {
-        if (setList(list)) return;
-      });
     }
   }
 
-  Future<void> _insertionSort(List<int> list, Function setList) async {
+  Future<void> _insertionSort(List<int> list, Function setList,
+      GlobalKey<VectorState> vectorKey) async {
     for (int index = 1; index < list.length; index++) {
       int currentValue = list[index];
       int position = index;
 
       while (position > 0 && list[position - 1] > currentValue) {
         list[position] = list[position - 1];
+        await vectorKey.currentState?.swapContainer(position, position - 1);
         position--;
       }
 
       list[position] = currentValue;
-
-      await Future.delayed(Duration(milliseconds: 500), () {
-        if (setList(list)) return;
-      });
+      if (setList(list, true)) return;
     }
   }
 
