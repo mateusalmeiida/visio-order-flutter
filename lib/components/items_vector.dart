@@ -6,10 +6,12 @@ class ItemsVector extends StatefulWidget {
   final String algorithm;
   final double opacity;
   final IconData iconData;
+  final Color borderColor;
   final int index;
   final int value;
   final int length;
   const ItemsVector({
+    required this.borderColor,
     required this.iconData,
     required this.opacity,
     required this.index,
@@ -62,25 +64,34 @@ class ItemsVectorState extends State<ItemsVector> {
             ),
           ),
         ),
-        Container(
-          constraints: BoxConstraints(maxHeight: 100, maxWidth: 100),
-          padding: EdgeInsets.all(5),
+        SizedBox(
           height: sizeContainer,
           width: sizeContainer,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.white, width: 1.5),
-            borderRadius: BorderRadius.circular(5),
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: ColorsData.colorsAlgorithm[widget.algorithm] ??
-                    [Colors.blue]),
-          ),
-          child: FittedBox(
-            child: Text(
-              widget.value.toString().padLeft(2, '0'),
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 500),
+            decoration: BoxDecoration(
+              border: Border.all(color: widget.borderColor, width: 2),
+              borderRadius: BorderRadius.circular(5),
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: ColorsData.colorsAlgorithm[widget.algorithm] ??
+                      [Colors.blue]),
+            ),
+            child: AnimatedDefaultTextStyle(
+              duration: Duration(milliseconds: 500), // Tempo da animação
+              style: TextStyle(
+                color: widget.borderColor,
+                fontWeight: FontWeight.bold,
+              ),
+              child: FittedBox(
+                child: Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: Text(
+                    widget.value.toString().padLeft(2, '0'),
+                  ),
+                ),
+              ),
             ),
           ),
         ),

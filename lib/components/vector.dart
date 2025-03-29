@@ -21,6 +21,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
   List<int> indexAnimate = [];
   late List<IconData> icons;
   late List<double> opacity;
+  late List<Color> borderColor;
 
   @override
   void initState() {
@@ -52,9 +53,26 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     opacity = List.generate(widget.vector.length, (_) {
       return 0.0;
     });
+    borderColor = List.generate(widget.vector.length, (_) {
+      return Colors.white;
+    });
+  }
+
+  void resetColor() {
+    if (borderColor.isEmpty) return;
+    for (int i = 0; i < borderColor.length; i++) {
+      borderColor[i] = Colors.white;
+    }
+    setState(() {});
   }
 
   void changeIcon(int index, int index2, int value, int value2) {
+    if (index < 0 ||
+        index >= widget.vector.length ||
+        index2 < 0 ||
+        index2 >= widget.vector.length) {
+      return;
+    }
     if (value > value2) {
       icons[index] = FontAwesomeIcons.solidCircleUp;
       icons[index2] = FontAwesomeIcons.solidCircleDown;
@@ -67,8 +85,27 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     }
   }
 
-  Future<void> changeOpacity(int index, int index2) async {
-    if (index < 0 || index >= opacity.length) return;
+  void setOrdered(int index) {
+    if (index < 0 || index >= widget.vector.length) {
+      return;
+    }
+    setState(() {
+      borderColor[index] = Colors.lightGreenAccent;
+    });
+  }
+
+  Future<void> compareContainers(int index, int index2) async {
+    if (index < 0 ||
+        index >= widget.vector.length ||
+        index2 < 0 ||
+        index2 >= widget.vector.length) {
+      return;
+    }
+    setState(() {
+      borderColor[index] = Colors.cyanAccent;
+      borderColor[index2] = Colors.cyanAccent;
+    });
+    await Future.delayed(Duration(milliseconds: 500));
     setState(() {
       opacity[index] = 1;
       opacity[index2] = 1;
@@ -77,8 +114,10 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     setState(() {
       opacity[index] = 0;
       opacity[index2] = 0;
+      borderColor[index] = Colors.white;
+      borderColor[index2] = Colors.white;
     });
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(Duration(milliseconds: 200));
   }
 
   void generateAnimation() {
@@ -144,6 +183,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     final double sizeContainer = (screenWidth / widget.vector.length) > 100
         ? 100
         : (screenWidth / widget.vector.length);
+
     return SizedBox(
       width: sizeContainer * widget.vector.length,
       height: sizeContainer * 1.4,
@@ -157,6 +197,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
                 return Positioned(
                   left: position + (index * sizeContainer),
                   child: ItemsVector(
+                    borderColor: borderColor[index],
                     index: index,
                     length: widget.vector.length,
                     value: entry.value,

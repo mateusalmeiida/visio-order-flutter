@@ -253,6 +253,7 @@ class _PreviewPageState extends State<PreviewPage> {
                         TextButton(
                           onPressed: () {
                             _backupVector();
+                            _vectorKey.currentState?.resetColor();
                             _refreshAnimation();
                           },
                           child: Text(
@@ -279,6 +280,7 @@ class _PreviewPageState extends State<PreviewPage> {
                         TextButton(
                           onPressed: () {
                             _generateRandom(vector.length);
+                            _vectorKey.currentState?.resetColor();
                             _refreshAnimation();
                           },
                           child: Text(

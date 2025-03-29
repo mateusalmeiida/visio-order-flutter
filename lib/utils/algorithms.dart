@@ -36,7 +36,7 @@ class Algorithms with ChangeNotifier {
       for (int index = 0; index < pass; index++) {
         vectorKey.currentState
             ?.changeIcon(index, index + 1, list[index], list[index + 1]);
-        await vectorKey.currentState?.changeOpacity(index, index + 1);
+        await vectorKey.currentState?.compareContainers(index, index + 1);
         if (list[index] > list[index + 1]) {
           int temp = list[index];
           list[index] = list[index + 1];
@@ -45,10 +45,12 @@ class Algorithms with ChangeNotifier {
           await vectorKey.currentState?.swapContainer(index, index + 1);
           if (setList(list, true)) return;
         } else {
-          await Future.delayed(Duration(milliseconds: 850));
+          await Future.delayed(Duration(milliseconds: 350));
         }
       }
+      vectorKey.currentState?.setOrdered(pass);
     }
+    vectorKey.currentState?.setOrdered(0);
   }
 
   Future<void> _selectionSort(List<int> list, Function setList,
@@ -77,13 +79,26 @@ class Algorithms with ChangeNotifier {
       int position = index;
 
       while (position > 0 && list[position - 1] > currentValue) {
+        vectorKey.currentState?.changeIcon(
+            position, position - 1, currentValue, list[position - 1]);
+        await vectorKey.currentState?.compareContainers(position, position - 1);
         list[position] = list[position - 1];
         await vectorKey.currentState?.swapContainer(position, position - 1);
+        list[position - 1] = currentValue;
+        if (setList(list, true)) return;
+        if (setList(list, true)) return;
         position--;
       }
+      if (position == index || position > 0) {
+        await Future.delayed(Duration(milliseconds: 350));
+        vectorKey.currentState?.changeIcon(
+            position, position - 1, currentValue, list[position - 1]);
+        await vectorKey.currentState?.compareContainers(position, position - 1);
+      }
 
-      list[position] = currentValue;
-      if (setList(list, true)) return;
+      for (int i = 0; i <= index; i++) {
+        vectorKey.currentState?.setOrdered(i);
+      }
     }
   }
 
