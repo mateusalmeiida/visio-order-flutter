@@ -38,7 +38,10 @@ class _PreviewPageState extends State<PreviewPage> {
     });
 
     Provider.of<Algorithms>(context, listen: false)
-        .sort(_setList, _vectorKey, _speedAnimation[_indexSpeed])
+        .sort(
+      _setList,
+      _vectorKey,
+    )
         .then((_) {
       if (mounted) {
         setState(() {
@@ -142,7 +145,7 @@ class _PreviewPageState extends State<PreviewPage> {
                   algorithm: algorithm,
                 )
               ]),
-              SizedBox(height: screenHeight * 0.15),
+              SizedBox(height: screenHeight * 0.12),
               if (_stateAnimation == StateAnimation.notStarted)
                 Container(
                   alignment: Alignment.center,

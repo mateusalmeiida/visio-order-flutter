@@ -23,6 +23,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
   List<int> indexAnimate = [];
   late List<IconData> icons;
   late List<double> opacity;
+  late List<double> selectIndexOpacity;
   late List<Color> borderColor;
 
   @override
@@ -69,6 +70,9 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     opacity = List.generate(widget.vector.length, (_) {
       return 0.0;
     });
+    selectIndexOpacity = List.generate(widget.vector.length, (_) {
+      return 0.0;
+    });
     borderColor = List.generate(widget.vector.length, (_) {
       return Colors.white;
     });
@@ -99,6 +103,24 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
       icons[index2] = FontAwesomeIcons.equals;
       icons[index] = FontAwesomeIcons.equals;
     }
+  }
+
+  void indexSelected(int index) {
+    if (index < 0 || index >= widget.vector.length) {
+      return;
+    }
+    setState(() {
+      selectIndexOpacity[index] = 1.0;
+    });
+  }
+
+  void indexUncheck(int index) {
+    if (index < 0 || index >= widget.vector.length) {
+      return;
+    }
+    setState(() {
+      selectIndexOpacity[index] = 0.0;
+    });
   }
 
   void setOrdered(int index) {
@@ -160,7 +182,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     });
   }
 
-  startAnimation() {
+  void startAnimation() async {
     _controller.forward();
   }
 
@@ -207,7 +229,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
 
     return SizedBox(
       width: sizeContainer * widget.vector.length,
-      height: sizeContainer * 1.4,
+      height: sizeContainer * 1.7,
       child: Stack(
         children: widget.vector.asMap().entries.map((entry) {
           int index = entry.key;
@@ -218,6 +240,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
                 return Positioned(
                   left: position + (index * sizeContainer),
                   child: ItemsVector(
+                    selectIndexOpacity: selectIndexOpacity[index],
                     speed: widget.speed,
                     borderColor: borderColor[index],
                     //index: index,

@@ -7,6 +7,7 @@ class ItemsVector extends StatefulWidget {
   final double opacity;
   final IconData iconData;
   final Color borderColor;
+  final double selectIndexOpacity;
   //final int index;
   final int value;
   final int length;
@@ -15,6 +16,7 @@ class ItemsVector extends StatefulWidget {
     required this.speed,
     required this.borderColor,
     required this.iconData,
+    required this.selectIndexOpacity,
     required this.opacity,
     //required this.index,
     required this.length,
@@ -97,6 +99,28 @@ class ItemsVectorState extends State<ItemsVector> {
             ),
           ),
         ),
+        SizedBox(
+          height: 0.2 * sizeContainer,
+          width: sizeContainer,
+          child: Center(
+            child: SizedBox(
+              height: 0.08 * sizeContainer,
+              width: sizeContainer * 0.95,
+              child: AnimatedOpacity(
+                duration: Duration(milliseconds: (200 / widget.speed).toInt()),
+                opacity: widget.selectIndexOpacity,
+                child: Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        Colors.purpleAccent[200]!,
+                        Colors.purple,
+                      ]),
+                      borderRadius: BorderRadius.circular(15)),
+                ),
+              ),
+            ),
+          ),
+        )
       ],
     );
   }
