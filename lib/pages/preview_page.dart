@@ -145,7 +145,7 @@ class _PreviewPageState extends State<PreviewPage> {
                   algorithm: algorithm,
                 )
               ]),
-              SizedBox(height: screenHeight * 0.12),
+              SizedBox(height: screenHeight * 0.1),
               if (_stateAnimation == StateAnimation.notStarted)
                 Container(
                   alignment: Alignment.center,
