@@ -143,7 +143,7 @@ class Algorithms with ChangeNotifier {
       }
     }
     await Future.delayed(Duration(milliseconds: 500), () {
-      if (setList(list)) return;
+      if (setList(list, true)) return;
     });
   }
 
@@ -191,7 +191,7 @@ class Algorithms with ChangeNotifier {
     list[rightMark] = temp;
 
     await Future.delayed(Duration(milliseconds: 500), () {
-      if (setList(list)) return;
+      if (setList(list, true)) return;
     });
 
     return rightMark;
