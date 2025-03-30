@@ -10,10 +10,11 @@ class Algorithms with ChangeNotifier {
 
   Algorithms(this.dataList);
 
-  Future<void> sort(Function setList, GlobalKey<VectorState> vectorKey) async {
+  Future<void> sort(
+      Function setList, GlobalKey<VectorState> vectorKey, double speed) async {
     switch (dataList.getAlgorithm) {
       case 'Bubble Sort':
-        await _bubbleSort(dataList.getDataList, setList, vectorKey);
+        await _bubbleSort(dataList.getDataList, setList, vectorKey, speed);
         break;
       case 'Selection Sort':
         await _selectionSort(dataList.getDataList, setList, vectorKey);
@@ -31,7 +32,7 @@ class Algorithms with ChangeNotifier {
   }
 
   Future<void> _bubbleSort(List<int> list, Function setList,
-      GlobalKey<VectorState> vectorKey) async {
+      GlobalKey<VectorState> vectorKey, double speed) async {
     for (int pass = list.length - 1; pass > 0; pass--) {
       for (int index = 0; index < pass; index++) {
         vectorKey.currentState
@@ -45,7 +46,7 @@ class Algorithms with ChangeNotifier {
           await vectorKey.currentState?.swapContainer(index, index + 1);
           if (setList(list, true)) return;
         } else {
-          await Future.delayed(Duration(milliseconds: 350));
+          await vectorKey.currentState?.delay(350);
         }
       }
       vectorKey.currentState?.setOrdered(pass);
@@ -90,7 +91,7 @@ class Algorithms with ChangeNotifier {
         position--;
       }
       if (position == index || position > 0) {
-        await Future.delayed(Duration(milliseconds: 350));
+        await vectorKey.currentState?.delay(350);
         vectorKey.currentState?.changeIcon(
             position, position - 1, currentValue, list[position - 1]);
         await vectorKey.currentState?.compareContainers(position, position - 1);

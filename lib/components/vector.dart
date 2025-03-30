@@ -5,7 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class Vector extends StatefulWidget {
   final List<int> vector;
   final String algorithm;
+  final double speed;
   const Vector({
+    required this.speed,
     required this.vector,
     required this.algorithm,
     super.key,
@@ -24,11 +26,25 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
   late List<Color> borderColor;
 
   @override
+  void didUpdateWidget(Vector oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.speed != widget.speed) {
+      _controller.duration =
+          Duration(milliseconds: (600 / widget.speed).toInt());
+    }
+
+    if (oldWidget.vector != widget.vector) {
+      generateAnimation();
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
 
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 600),
+      duration: Duration(milliseconds: (600 / widget.speed).toInt()),
       vsync: this,
     );
 
@@ -105,19 +121,19 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
       borderColor[index] = Colors.cyanAccent;
       borderColor[index2] = Colors.cyanAccent;
     });
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(Duration(milliseconds: (500 / widget.speed).toInt()));
     setState(() {
       opacity[index] = 1;
       opacity[index2] = 1;
     });
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(Duration(milliseconds: (500 / widget.speed).toInt()));
     setState(() {
       opacity[index] = 0;
       opacity[index2] = 0;
       borderColor[index] = Colors.white;
       borderColor[index2] = Colors.white;
     });
-    await Future.delayed(Duration(milliseconds: 200));
+    await Future.delayed(Duration(milliseconds: (200 / widget.speed).toInt()));
   }
 
   void generateAnimation() {
@@ -154,7 +170,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     indexAnimate.add(index2);
     generateAnimation();
     startAnimation();
-    await Future.delayed(Duration(milliseconds: 850));
+    await Future.delayed(Duration(milliseconds: (850 / widget.speed).toInt()));
   }
 
   @override
@@ -163,18 +179,23 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     generateAnimation();
   }
 
-  @override
+  /*@override
   void didUpdateWidget(Vector oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.vector != widget.vector) {
       generateAnimation();
     }
-  }
+  }*/
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  Future<void> delay(int duration) async {
+    await Future.delayed(
+        Duration(milliseconds: (duration / widget.speed).toInt()));
   }
 
   @override
@@ -197,8 +218,9 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
                 return Positioned(
                   left: position + (index * sizeContainer),
                   child: ItemsVector(
+                    speed: widget.speed,
                     borderColor: borderColor[index],
-                    index: index,
+                    //index: index,
                     length: widget.vector.length,
                     value: entry.value,
                     algorithm: widget.algorithm,

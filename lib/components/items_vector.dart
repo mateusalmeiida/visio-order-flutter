@@ -7,14 +7,16 @@ class ItemsVector extends StatefulWidget {
   final double opacity;
   final IconData iconData;
   final Color borderColor;
-  final int index;
+  //final int index;
   final int value;
   final int length;
+  final double speed;
   const ItemsVector({
+    required this.speed,
     required this.borderColor,
     required this.iconData,
     required this.opacity,
-    required this.index,
+    //required this.index,
     required this.length,
     required this.value,
     required this.algorithm,
@@ -51,7 +53,7 @@ class ItemsVectorState extends State<ItemsVector> {
       children: [
         AnimatedOpacity(
           opacity: widget.opacity,
-          duration: Duration(milliseconds: 500),
+          duration: Duration(milliseconds: (500 / widget.speed).toInt()),
           child: SizedBox(
             height: 0.4 * sizeContainer,
             width: sizeContainer,
@@ -68,7 +70,7 @@ class ItemsVectorState extends State<ItemsVector> {
           height: sizeContainer,
           width: sizeContainer,
           child: AnimatedContainer(
-            duration: Duration(milliseconds: 500),
+            duration: Duration(milliseconds: (500 / widget.speed).toInt()),
             decoration: BoxDecoration(
               border: Border.all(color: widget.borderColor, width: 2),
               borderRadius: BorderRadius.circular(5),
@@ -79,7 +81,7 @@ class ItemsVectorState extends State<ItemsVector> {
                       [Colors.blue]),
             ),
             child: AnimatedDefaultTextStyle(
-              duration: Duration(milliseconds: 500), // Tempo da animação
+              duration: Duration(milliseconds: (500 / widget.speed).toInt()),
               style: TextStyle(
                 color: widget.borderColor,
                 fontWeight: FontWeight.bold,

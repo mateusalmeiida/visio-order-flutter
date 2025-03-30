@@ -18,15 +18,11 @@ class PreviewPage extends StatefulWidget {
 
 class _PreviewPageState extends State<PreviewPage> {
   final GlobalKey<VectorState> _vectorKey = GlobalKey<VectorState>();
-  final List<double> _speedAnimation = [0.5, 1.0, 1.5, 2.0];
+  final List<double> _speedAnimation = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0];
   late List<int> _listBackup;
   int _indexSpeed = 1;
   StateAnimation _stateAnimation = StateAnimation.notStarted;
   bool _isDispose = false;
-
-  /*void swap(int index1, int index2) {
-    _vectorKey.currentState?.swapContainer(index1, index2);
-  }*/
 
   bool _setList(List<int> list, bool set) {
     if (mounted && set) {
@@ -42,7 +38,7 @@ class _PreviewPageState extends State<PreviewPage> {
     });
 
     Provider.of<Algorithms>(context, listen: false)
-        .sort(_setList, _vectorKey)
+        .sort(_setList, _vectorKey, _speedAnimation[_indexSpeed])
         .then((_) {
       if (mounted) {
         setState(() {
@@ -140,6 +136,7 @@ class _PreviewPageState extends State<PreviewPage> {
               SizedBox(height: screenHeight * 0.12),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Vector(
+                  speed: _speedAnimation[_indexSpeed],
                   key: _vectorKey,
                   vector: vector,
                   algorithm: algorithm,
@@ -218,7 +215,7 @@ class _PreviewPageState extends State<PreviewPage> {
                     ),
                     IconButton(
                       onPressed: () {
-                        if (_indexSpeed < 3) {
+                        if (_indexSpeed < 5) {
                           setState(() {
                             _indexSpeed++;
                           });
