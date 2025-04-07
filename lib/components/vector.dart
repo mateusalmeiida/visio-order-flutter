@@ -25,6 +25,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
   late List<double> opacity;
   late List<double> selectIndexOpacity;
   late List<Color> borderColor;
+  late List<List<Color>> colorsSelectItem;
 
   @override
   void didUpdateWidget(Vector oldWidget) {
@@ -75,6 +76,9 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     });
     borderColor = List.generate(widget.vector.length, (_) {
       return Colors.white;
+    });
+    colorsSelectItem = List.generate(widget.vector.length, (_) {
+      return [Colors.purpleAccent[200]!, Colors.purple];
     });
   }
 
@@ -240,6 +244,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
                 return Positioned(
                   left: position + (index * sizeContainer),
                   child: ItemsVector(
+                    colorsSelectItem: colorsSelectItem[index],
                     selectIndexOpacity: selectIndexOpacity[index],
                     speed: widget.speed,
                     borderColor: borderColor[index],

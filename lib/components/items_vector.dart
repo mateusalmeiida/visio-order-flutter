@@ -8,11 +8,13 @@ class ItemsVector extends StatefulWidget {
   final IconData iconData;
   final Color borderColor;
   final double selectIndexOpacity;
+  final List<Color> colorsSelectItem;
   //final int index;
   final int value;
   final int length;
   final double speed;
   const ItemsVector({
+    required this.colorsSelectItem,
     required this.speed,
     required this.borderColor,
     required this.iconData,
@@ -111,10 +113,7 @@ class ItemsVectorState extends State<ItemsVector> {
                 opacity: widget.selectIndexOpacity,
                 child: Container(
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                        Colors.purpleAccent[200]!,
-                        Colors.purple,
-                      ]),
+                      gradient: LinearGradient(colors: widget.colorsSelectItem),
                       borderRadius: BorderRadius.circular(15)),
                 ),
               ),
