@@ -90,6 +90,15 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     setState(() {});
   }
 
+  void changeColorSelectItem(int index) {
+    if (index < 0 || index >= widget.vector.length) {
+      return;
+    }
+    setState(() {
+      colorsSelectItem[index] = [Colors.red[200]!, Colors.red];
+    });
+  }
+
   void changeIcon(int index, int index2, int value, int value2) {
     if (index < 0 ||
         index >= widget.vector.length ||
