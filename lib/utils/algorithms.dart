@@ -176,7 +176,7 @@ class Algorithms with ChangeNotifier {
       while (leftMark <= rightMark && list[leftMark] <= pivotValue) {
         vectorKey.currentState
             ?.changeIcon(first, leftMark, pivotValue, list[leftMark]);
-        await vectorKey.currentState?.compareContainers(first, leftMark);
+        await vectorKey.currentState?.comparePivo(first, leftMark);
         leftMark++;
         vectorKey.currentState?.indexUncheck(leftMark - 1);
 
@@ -195,13 +195,13 @@ class Algorithms with ChangeNotifier {
       if (leftMark < last && list[leftMark] > pivotValue) {
         vectorKey.currentState
             ?.changeIcon(first, leftMark, pivotValue, list[leftMark]);
-        await vectorKey.currentState?.compareContainers(first, leftMark);
+        await vectorKey.currentState?.comparePivo(first, leftMark);
       }
 
       while (list[rightMark] >= pivotValue && rightMark >= leftMark) {
         vectorKey.currentState
             ?.changeIcon(first, rightMark, pivotValue, list[rightMark]);
-        await vectorKey.currentState?.compareContainers(first, rightMark);
+        await vectorKey.currentState?.comparePivo(first, rightMark);
         rightMark--;
         vectorKey.currentState?.indexUncheck(rightMark + 1);
         if (leftMark == rightMark + 1) {
@@ -219,7 +219,7 @@ class Algorithms with ChangeNotifier {
       if (rightMark > first && list[rightMark] < pivotValue) {
         vectorKey.currentState
             ?.changeIcon(first, rightMark, pivotValue, list[rightMark]);
-        await vectorKey.currentState?.compareContainers(first, rightMark);
+        await vectorKey.currentState?.comparePivo(first, rightMark);
       }
 
       if (rightMark < leftMark) {
@@ -234,8 +234,9 @@ class Algorithms with ChangeNotifier {
         list[leftMark] = list[rightMark];
         list[rightMark] = temp;
 
-        await vectorKey.currentState?.selectLeftmark(leftMark);
-        await vectorKey.currentState?.selectRightmark(rightMark);
+        setList(list, true);
+
+        await vectorKey.currentState?.selectRightAndLeft(leftMark, rightMark);
       }
     }
 
@@ -249,9 +250,7 @@ class Algorithms with ChangeNotifier {
     list[rightMark] = temp;
     vectorKey.currentState?.setOrdered(rightMark);
 
-    await Future.delayed(Duration(milliseconds: 500), () {
-      if (setList(list, true)) return;
-    });
+    setList(list, true);
 
     return rightMark;
   }

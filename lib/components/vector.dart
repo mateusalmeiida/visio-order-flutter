@@ -101,6 +101,22 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     await delay(200);
   }
 
+  Future<void> selectRightAndLeft(int left, int right) async {
+    if (left < 0 ||
+        left >= widget.vector.length ||
+        right < 0 ||
+        right >= widget.vector.length) {
+      return;
+    }
+    setState(() {
+      colorsSelectItem[right] = [Colors.blue[200]!, Colors.blueAccent];
+      selectIndexOpacity[right] = 1.0;
+      colorsSelectItem[left] = [Colors.red[200]!, Colors.red];
+      selectIndexOpacity[left] = 1.0;
+    });
+    await delay(200);
+  }
+
   Future<void> selectRightmark(int index) async {
     if (index < 0 || index >= widget.vector.length) {
       return;
@@ -170,11 +186,35 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     setState(() {
       colorsSelectItem[rightmark] = [Colors.blue[200]!, Colors.blueAccent];
       colorsSelectItem[leftmark] = [Colors.red[200]!, Colors.red];
-      borderColor[pivo] = Colors.cyanAccent;
+      borderColor[pivo] = Colors.yellowAccent;
       selectIndexOpacity[rightmark] = 1.0;
       selectIndexOpacity[leftmark] = 1.0;
     });
     await Future.delayed(Duration(milliseconds: (500 / widget.speed).toInt()));
+  }
+
+  Future<void> comparePivo(int pivo, int index2) async {
+    if (pivo < 0 ||
+        pivo >= widget.vector.length ||
+        index2 < 0 ||
+        index2 >= widget.vector.length) {
+      return;
+    }
+    setState(() {
+      borderColor[index2] = Colors.cyanAccent;
+    });
+    await Future.delayed(Duration(milliseconds: (500 / widget.speed).toInt()));
+    setState(() {
+      opacity[pivo] = 1;
+      opacity[index2] = 1;
+    });
+    await Future.delayed(Duration(milliseconds: (500 / widget.speed).toInt()));
+    setState(() {
+      opacity[pivo] = 0;
+      opacity[index2] = 0;
+      borderColor[index2] = Colors.white;
+    });
+    await Future.delayed(Duration(milliseconds: (200 / widget.speed).toInt()));
   }
 
   Future<void> compareContainers(int index, int index2) async {
