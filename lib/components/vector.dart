@@ -90,13 +90,26 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     setState(() {});
   }
 
-  void changeColorSelectItem(int index) {
+  Future<void> selectLeftmark(int index) async {
     if (index < 0 || index >= widget.vector.length) {
       return;
     }
     setState(() {
       colorsSelectItem[index] = [Colors.red[200]!, Colors.red];
+      selectIndexOpacity[index] = 1.0;
     });
+    await delay(200);
+  }
+
+  Future<void> selectRightmark(int index) async {
+    if (index < 0 || index >= widget.vector.length) {
+      return;
+    }
+    setState(() {
+      colorsSelectItem[index] = [Colors.blue[200]!, Colors.blueAccent];
+      selectIndexOpacity[index] = 1.0;
+    });
+    await delay(200);
   }
 
   void changeIcon(int index, int index2, int value, int value2) {
@@ -143,6 +156,25 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     setState(() {
       borderColor[index] = Colors.lightGreenAccent;
     });
+  }
+
+  Future<void> selectPivo(int pivo, int leftmark, int rightmark) async {
+    if (pivo < 0 ||
+        pivo >= widget.vector.length ||
+        leftmark < 0 ||
+        leftmark >= widget.vector.length ||
+        rightmark < 0 ||
+        rightmark >= widget.vector.length) {
+      return;
+    }
+    setState(() {
+      colorsSelectItem[rightmark] = [Colors.blue[200]!, Colors.blueAccent];
+      colorsSelectItem[leftmark] = [Colors.red[200]!, Colors.red];
+      borderColor[pivo] = Colors.cyanAccent;
+      selectIndexOpacity[rightmark] = 1.0;
+      selectIndexOpacity[leftmark] = 1.0;
+    });
+    await Future.delayed(Duration(milliseconds: (500 / widget.speed).toInt()));
   }
 
   Future<void> compareContainers(int index, int index2) async {

@@ -25,7 +25,7 @@ class Algorithms with ChangeNotifier {
         await _mergeSort(dataList.getDataList, setList);
         break;
       case 'Quick Sort':
-        await _quickSort(dataList.getDataList, setList);
+        await _quickSort(dataList.getDataList, setList, vectorKey);
         break;
     }
   }
@@ -147,48 +147,107 @@ class Algorithms with ChangeNotifier {
     });
   }
 
-  Future<void> _quickSort(List<int> list, Function setList) async {
-    await _quickSortHelper(list, 0, list.length - 1, setList);
+  Future<void> _quickSort(List<int> list, Function setList,
+      GlobalKey<VectorState> vectorKey) async {
+    await _quickSortHelper(list, 0, list.length - 1, setList, vectorKey);
   }
 
-  Future<void> _quickSortHelper(
-      List<int> list, int first, int last, Function setList) async {
+  Future<void> _quickSortHelper(List<int> list, int first, int last,
+      Function setList, GlobalKey<VectorState> vectorKey) async {
     if (first < last) {
-      int splitpoint = await partition(list, first, last, setList);
-      await _quickSortHelper(list, first, splitpoint - 1, setList);
-      await _quickSortHelper(list, splitpoint + 1, last, setList);
+      int splitpoint = await partition(list, first, last, setList, vectorKey);
+      await _quickSortHelper(list, first, splitpoint - 1, setList, vectorKey);
+      await _quickSortHelper(list, splitpoint + 1, last, setList, vectorKey);
+    } else {
+      vectorKey.currentState?.setOrdered(first);
+      await vectorKey.currentState?.delay(500);
     }
   }
 
-  Future<int> partition(
-      List<int> list, int first, int last, Function setList) async {
+  Future<int> partition(List<int> list, int first, int last, Function setList,
+      GlobalKey<VectorState> vectorKey) async {
     int pivotValue = list[first];
     int leftMark = first + 1;
     int rightMark = last;
+    await vectorKey.currentState?.selectPivo(first, leftMark, rightMark);
     bool done = false;
 
     while (!done) {
       while (leftMark <= rightMark && list[leftMark] <= pivotValue) {
+        vectorKey.currentState
+            ?.changeIcon(first, leftMark, pivotValue, list[leftMark]);
+        await vectorKey.currentState?.compareContainers(first, leftMark);
         leftMark++;
+        vectorKey.currentState?.indexUncheck(leftMark - 1);
+
+        if (rightMark == leftMark - 1) {
+          if (leftMark < last) {
+            vectorKey.currentState?.selectLeftmark(leftMark);
+          }
+          await vectorKey.currentState?.selectRightmark(rightMark);
+        } else {
+          if (leftMark < last) {
+            vectorKey.currentState?.selectLeftmark(leftMark);
+          }
+        }
       }
+
+      if (leftMark < last && list[leftMark] > pivotValue) {
+        vectorKey.currentState
+            ?.changeIcon(first, leftMark, pivotValue, list[leftMark]);
+        await vectorKey.currentState?.compareContainers(first, leftMark);
+      }
+
       while (list[rightMark] >= pivotValue && rightMark >= leftMark) {
+        vectorKey.currentState
+            ?.changeIcon(first, rightMark, pivotValue, list[rightMark]);
+        await vectorKey.currentState?.compareContainers(first, rightMark);
         rightMark--;
+        vectorKey.currentState?.indexUncheck(rightMark + 1);
+        if (leftMark == rightMark + 1) {
+          if (rightMark > first) {
+            vectorKey.currentState?.selectRightmark(rightMark);
+          }
+          await vectorKey.currentState?.selectLeftmark(leftMark);
+        } else {
+          if (rightMark > first) {
+            vectorKey.currentState?.selectRightmark(rightMark);
+          }
+        }
+      }
+
+      if (rightMark > first && list[rightMark] < pivotValue) {
+        vectorKey.currentState
+            ?.changeIcon(first, rightMark, pivotValue, list[rightMark]);
+        await vectorKey.currentState?.compareContainers(first, rightMark);
       }
 
       if (rightMark < leftMark) {
         done = true;
       } else {
+        vectorKey.currentState?.indexUncheck(leftMark);
+        vectorKey.currentState?.indexUncheck(rightMark);
+
         // Troca os elementos
+        await vectorKey.currentState?.swapContainer(leftMark, rightMark);
         int temp = list[leftMark];
         list[leftMark] = list[rightMark];
         list[rightMark] = temp;
+
+        await vectorKey.currentState?.selectLeftmark(leftMark);
+        await vectorKey.currentState?.selectRightmark(rightMark);
       }
     }
 
+    vectorKey.currentState?.indexUncheck(leftMark);
+    vectorKey.currentState?.indexUncheck(rightMark);
+
     // Coloca o pivô na posição correta
+    await vectorKey.currentState?.swapContainer(first, rightMark);
     int temp = list[first];
     list[first] = list[rightMark];
     list[rightMark] = temp;
+    vectorKey.currentState?.setOrdered(rightMark);
 
     await Future.delayed(Duration(milliseconds: 500), () {
       if (setList(list, true)) return;
