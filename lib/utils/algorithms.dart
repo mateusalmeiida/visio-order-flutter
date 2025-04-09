@@ -22,7 +22,7 @@ class Algorithms with ChangeNotifier {
         await _insertionSort(dataList.getDataList, setList, vectorKey);
         break;
       case 'Merge Sort':
-        await _mergeSort(dataList.getDataList, setList);
+        await _mergeSort(dataList.getDataList, setList, vectorKey);
         break;
       case 'Quick Sort':
         await _quickSort(dataList.getDataList, setList, vectorKey);
@@ -93,7 +93,6 @@ class Algorithms with ChangeNotifier {
         await vectorKey.currentState?.swapContainer(position, position - 1);
         list[position - 1] = currentValue;
         if (setList(list, true)) return;
-        if (setList(list, true)) return;
         position--;
       }
       if (position == index || position > 0) {
@@ -109,42 +108,63 @@ class Algorithms with ChangeNotifier {
     }
   }
 
-  Future<void> _mergeSort(List<int> list, Function setList) async {
-    if (list.length > 1) {
-      int mid = list.length ~/ 2;
-      List<int> lefthalf = list.sublist(0, mid);
-      List<int> righthalf = list.sublist(mid);
+  Future<void> _mergeSort(List<int> list, Function setList,
+      GlobalKey<VectorState> vectorKey) async {
+    await _mergeSortHelper(list, 0, list.length - 1, setList, vectorKey);
+  }
 
-      await _mergeSort(lefthalf, setList);
-      await _mergeSort(righthalf, setList);
+  Future<void> _mergeSortHelper(List<int> list, int start, int end,
+      Function setList, GlobalKey<VectorState> vectorKey) async {
+    if (start < end) {
+      int mid = (start + end) ~/ 2;
 
-      int i = 0, j = 0, k = 0;
-      while (i < lefthalf.length && j < righthalf.length) {
-        if (lefthalf[i] < righthalf[j]) {
-          list[k] = lefthalf[i];
-          i++;
-        } else {
-          list[k] = righthalf[j];
-          j++;
-        }
-        k++;
-      }
+      await _mergeSortHelper(list, start, mid, setList, vectorKey);
+      await _mergeSortHelper(list, mid + 1, end, setList, vectorKey);
 
-      while (i < lefthalf.length) {
-        list[k] = lefthalf[i];
-        i++;
-        k++;
-      }
+      int flag = await _merge(list, start, mid, end, setList, vectorKey);
+      if (flag == -1) return;
+    }
+  }
 
-      while (j < righthalf.length) {
-        list[k] = righthalf[j];
-        j++;
-        k++;
+  Future<int> _merge(List<int> list, int start, int mid, int end,
+      Function setList, GlobalKey<VectorState> vectorKey) async {
+    List<int> merged = [];
+    int i = start;
+    int j = mid + 1;
+
+    while (i <= mid && j <= end) {
+      //await vectorKey.currentState?.compareContainers(i, j);
+      //await vectorKey.currentState?.delay(300);
+
+      if (list[i] <= list[j]) {
+        merged.add(list[i++]);
+      } else {
+        merged.add(list[j++]);
       }
     }
-    await Future.delayed(Duration(milliseconds: 500), () {
-      if (setList(list, true)) return;
-    });
+
+    while (i <= mid) {
+      merged.add(list[i++]);
+    }
+
+    while (j <= end) {
+      merged.add(list[j++]);
+    }
+
+    for (int k = 0; k < merged.length; k++) {
+      list[start + k] = merged[k];
+      // Atualiza visualização passo a passo
+    }
+    await vectorKey.currentState?.delay(500);
+    print(list);
+    if (setList(list, true)) return -1;
+
+    // Marcar como ordenado se quiser
+    /*for (int x = start; x <= end; x++) {
+      vectorKey.currentState?.setOrdered(x);
+    }*/
+
+    return 0;
   }
 
   Future<void> _quickSort(List<int> list, Function setList,
@@ -156,6 +176,7 @@ class Algorithms with ChangeNotifier {
       Function setList, GlobalKey<VectorState> vectorKey) async {
     if (first < last) {
       int splitpoint = await partition(list, first, last, setList, vectorKey);
+      if (splitpoint == -1) return;
       await _quickSortHelper(list, first, splitpoint - 1, setList, vectorKey);
       await _quickSortHelper(list, splitpoint + 1, last, setList, vectorKey);
     } else {
@@ -234,7 +255,8 @@ class Algorithms with ChangeNotifier {
         list[leftMark] = list[rightMark];
         list[rightMark] = temp;
 
-        setList(list, true);
+        if (setList(list, true)) return -1;
+        print(list);
 
         await vectorKey.currentState?.selectRightAndLeft(leftMark, rightMark);
       }
@@ -250,7 +272,8 @@ class Algorithms with ChangeNotifier {
     list[rightMark] = temp;
     vectorKey.currentState?.setOrdered(rightMark);
 
-    setList(list, true);
+    if (setList(list, true)) return -1;
+    print(list);
 
     return rightMark;
   }

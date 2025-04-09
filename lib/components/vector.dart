@@ -312,34 +312,38 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
         ? 100
         : (screenWidth / widget.vector.length);
 
-    return SizedBox(
-      width: sizeContainer * widget.vector.length,
-      height: sizeContainer * 1.7,
-      child: Stack(
-        children: widget.vector.asMap().entries.map((entry) {
-          int index = entry.key;
-          return AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                double position = _animations[index].value;
-                return Positioned(
-                  left: position + (index * sizeContainer),
-                  child: ItemsVector(
-                    colorsSelectItem: colorsSelectItem[index],
-                    selectIndexOpacity: selectIndexOpacity[index],
-                    speed: widget.speed,
-                    borderColor: borderColor[index],
-                    //index: index,
-                    length: widget.vector.length,
-                    value: entry.value,
-                    algorithm: widget.algorithm,
-                    opacity: opacity[index],
-                    iconData: icons[index],
-                  ),
-                );
-              });
-        }).toList(),
-      ),
+    return Column(
+      children: [
+        SizedBox(
+          width: sizeContainer * widget.vector.length,
+          height: sizeContainer * 1.7,
+          child: Stack(
+            children: widget.vector.asMap().entries.map((entry) {
+              int index = entry.key;
+              return AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, child) {
+                    double position = _animations[index].value;
+                    return Positioned(
+                      left: position + (index * sizeContainer),
+                      child: ItemsVector(
+                        colorsSelectItem: colorsSelectItem[index],
+                        selectIndexOpacity: selectIndexOpacity[index],
+                        speed: widget.speed,
+                        borderColor: borderColor[index],
+                        //index: index,
+                        length: widget.vector.length,
+                        value: entry.value,
+                        algorithm: widget.algorithm,
+                        opacity: opacity[index],
+                        iconData: icons[index],
+                      ),
+                    );
+                  });
+            }).toList(),
+          ),
+        ),
+      ],
     );
   }
 }
