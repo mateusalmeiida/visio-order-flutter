@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:visio_order/components/items_vector.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:visio_order/pages/preview_page.dart';
 
 class Vector extends StatefulWidget {
   final List<int> vector;
   final String algorithm;
   final double speed;
+  final StateAnimation state;
   const Vector({
+    required this.state,
     required this.speed,
     required this.vector,
     required this.algorithm,
@@ -17,10 +20,13 @@ class Vector extends StatefulWidget {
   State<Vector> createState() => VectorState();
 }
 
-class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late List<Animation<double>> _animations;
-  List<int> indexAnimate = [];
+class VectorState extends State<Vector> with TickerProviderStateMixin {
+  late AnimationController _horizontalController;
+  late AnimationController _verticalController;
+  late List<Animation<double>> _animationsHorizontal;
+  late List<Animation<double>> _animationsVertical;
+  List<int> indexAnimateHorizontal = [];
+  List<int> indexAnimateVertical = [];
   late List<IconData> icons;
   late List<double> opacity;
   late List<double> selectIndexOpacity;
@@ -32,7 +38,12 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.speed != widget.speed) {
-      _controller.duration =
+      _horizontalController.duration =
+          Duration(milliseconds: (600 / widget.speed).toInt());
+    }
+
+    if (oldWidget.speed != widget.speed) {
+      _verticalController.duration =
           Duration(milliseconds: (600 / widget.speed).toInt());
     }
 
@@ -45,25 +56,38 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
+    _horizontalController = AnimationController(
       duration: Duration(milliseconds: (600 / widget.speed).toInt()),
       vsync: this,
     );
 
-    _controller.addStatusListener((status) {
+    _verticalController = AnimationController(
+      duration: Duration(milliseconds: (600 / widget.speed).toInt()),
+      vsync: this,
+    );
+
+    _horizontalController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         setState(() {
-          if (indexAnimate.length == 2) {
-            int temp = widget.vector[indexAnimate[0]];
-            widget.vector[indexAnimate[0]] = widget.vector[indexAnimate[1]];
-            widget.vector[indexAnimate[1]] = temp;
+          if (indexAnimateHorizontal.length == 2) {
+            int temp = widget.vector[indexAnimateHorizontal[0]];
+            widget.vector[indexAnimateHorizontal[0]] =
+                widget.vector[indexAnimateHorizontal[1]];
+            widget.vector[indexAnimateHorizontal[1]] = temp;
           }
         });
 
-        _controller.reset();
-        indexAnimate.clear();
+        _horizontalController.reset();
+        indexAnimateHorizontal.clear();
       }
     });
+
+    /*_verticalController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _verticalController.reset();
+        indexAnimateVertical.clear(); // opcional, dependendo do seu controle
+      }
+    });*/
 
     icons = List.generate(widget.vector.length, (_) {
       return FontAwesomeIcons.equals;
@@ -249,35 +273,54 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
         ? 100
         : (screenWidth / widget.vector.length);
 
-    _animations = List.generate(widget.vector.length, (index) {
+    _animationsVertical = List.generate(widget.vector.length, (index) {
+      double begin = 0.0;
+      double end = 0.0;
+      if (indexAnimateVertical.contains(index)) {
+        end = sizeContainer;
+      }
+      return Tween<double>(begin: begin, end: end).animate(
+        CurvedAnimation(parent: _verticalController, curve: Curves.easeInOut),
+      );
+    });
+
+    _animationsHorizontal = List.generate(widget.vector.length, (index) {
       double begin = 0.0;
       double end = 0.0;
 
-      if (indexAnimate.contains(index)) {
-        int def = indexAnimate[1] - indexAnimate[0];
-        if (index == indexAnimate[0]) {
+      if (indexAnimateHorizontal.contains(index)) {
+        int def = indexAnimateHorizontal[1] - indexAnimateHorizontal[0];
+        if (index == indexAnimateHorizontal[0]) {
           end = sizeContainer * def;
-        } else if (index == indexAnimate[1]) {
+        } else if (index == indexAnimateHorizontal[1]) {
           end = -sizeContainer * def;
         }
       }
 
-      return Tween<double>(begin: begin, end: end)
-          .animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
+      return Tween<double>(begin: begin, end: end).animate(
+          CurvedAnimation(parent: _horizontalController, curve: Curves.linear));
     });
   }
 
-  void startAnimation() async {
-    _controller.forward();
+  Future<void> swapContainer(int index1, int index2) async {
+    indexAnimateHorizontal.clear();
+    indexAnimateHorizontal.add(index1);
+    indexAnimateHorizontal.add(index2);
+    generateAnimation();
+    _horizontalController.forward();
+    await Future.delayed(Duration(milliseconds: (600 / widget.speed).toInt()));
   }
 
-  Future<void> swapContainer(int index1, int index2) async {
-    indexAnimate.clear();
-    indexAnimate.add(index1);
-    indexAnimate.add(index2);
+  Future<void> animateDown(List<int> index) async {
+    indexAnimateVertical.clear();
+    indexAnimateVertical = [...index];
     generateAnimation();
-    startAnimation();
-    await Future.delayed(Duration(milliseconds: (850 / widget.speed).toInt()));
+    _verticalController.forward();
+    await Future.delayed(Duration(milliseconds: (600 / widget.speed).toInt()));
+  }
+
+  Future<void> animateVerticalReset() async {
+    _verticalController.reset();
   }
 
   @override
@@ -296,7 +339,8 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _horizontalController.dispose();
+    _verticalController.dispose();
     super.dispose();
   }
 
@@ -312,38 +356,40 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
         ? 100
         : (screenWidth / widget.vector.length);
 
-    return Column(
-      children: [
-        SizedBox(
-          width: sizeContainer * widget.vector.length,
-          height: sizeContainer * 1.7,
-          child: Stack(
-            children: widget.vector.asMap().entries.map((entry) {
-              int index = entry.key;
-              return AnimatedBuilder(
-                  animation: _controller,
-                  builder: (context, child) {
-                    double position = _animations[index].value;
-                    return Positioned(
-                      left: position + (index * sizeContainer),
-                      child: ItemsVector(
-                        colorsSelectItem: colorsSelectItem[index],
-                        selectIndexOpacity: selectIndexOpacity[index],
-                        speed: widget.speed,
-                        borderColor: borderColor[index],
-                        //index: index,
-                        length: widget.vector.length,
-                        value: entry.value,
-                        algorithm: widget.algorithm,
-                        opacity: opacity[index],
-                        iconData: icons[index],
-                      ),
-                    );
-                  });
-            }).toList(),
-          ),
-        ),
-      ],
+    return SizedBox(
+      width: sizeContainer * widget.vector.length,
+      height: widget.algorithm == "Merge Sort" &&
+              widget.state == StateAnimation.running
+          ? (sizeContainer * 2.7)
+          : (sizeContainer * 1.7),
+      child: Stack(
+        children: widget.vector.asMap().entries.map((entry) {
+          int index = entry.key;
+          return AnimatedBuilder(
+              animation: Listenable.merge(
+                  [_horizontalController, _verticalController]),
+              builder: (context, child) {
+                double positionLeft = _animationsHorizontal[index].value;
+                double positionTop = _animationsVertical[index].value;
+                return Positioned(
+                  left: positionLeft + (index * sizeContainer),
+                  top: positionTop,
+                  child: ItemsVector(
+                    colorsSelectItem: colorsSelectItem[index],
+                    selectIndexOpacity: selectIndexOpacity[index],
+                    speed: widget.speed,
+                    borderColor: borderColor[index],
+                    //index: index,
+                    length: widget.vector.length,
+                    value: entry.value,
+                    algorithm: widget.algorithm,
+                    opacity: opacity[index],
+                    iconData: icons[index],
+                  ),
+                );
+              });
+        }).toList(),
+      ),
     );
   }
 }

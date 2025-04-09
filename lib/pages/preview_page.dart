@@ -139,6 +139,7 @@ class _PreviewPageState extends State<PreviewPage> {
               SizedBox(height: screenHeight * 0.12),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Vector(
+                  state: _stateAnimation,
                   speed: _speedAnimation[_indexSpeed],
                   key: _vectorKey,
                   vector: vector,
