@@ -20,13 +20,10 @@ class Vector extends StatefulWidget {
   State<Vector> createState() => VectorState();
 }
 
-class VectorState extends State<Vector> with TickerProviderStateMixin {
+class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
   late AnimationController _horizontalController;
-  late AnimationController _verticalController;
   late List<Animation<double>> _animationsHorizontal;
-  late List<Animation<double>> _animationsVertical;
   List<int> indexAnimateHorizontal = [];
-  List<int> indexAnimateVertical = [];
   late List<IconData> icons;
   late List<double> opacity;
   late List<double> selectIndexOpacity;
@@ -42,11 +39,6 @@ class VectorState extends State<Vector> with TickerProviderStateMixin {
           Duration(milliseconds: (600 / widget.speed).toInt());
     }
 
-    if (oldWidget.speed != widget.speed) {
-      _verticalController.duration =
-          Duration(milliseconds: (600 / widget.speed).toInt());
-    }
-
     if (oldWidget.vector != widget.vector) {
       generateAnimation();
     }
@@ -57,11 +49,6 @@ class VectorState extends State<Vector> with TickerProviderStateMixin {
     super.initState();
 
     _horizontalController = AnimationController(
-      duration: Duration(milliseconds: (600 / widget.speed).toInt()),
-      vsync: this,
-    );
-
-    _verticalController = AnimationController(
       duration: Duration(milliseconds: (600 / widget.speed).toInt()),
       vsync: this,
     );
@@ -273,17 +260,6 @@ class VectorState extends State<Vector> with TickerProviderStateMixin {
         ? 100
         : (screenWidth / widget.vector.length);
 
-    _animationsVertical = List.generate(widget.vector.length, (index) {
-      double begin = 0.0;
-      double end = 0.0;
-      if (indexAnimateVertical.contains(index)) {
-        end = sizeContainer;
-      }
-      return Tween<double>(begin: begin, end: end).animate(
-        CurvedAnimation(parent: _verticalController, curve: Curves.easeInOut),
-      );
-    });
-
     _animationsHorizontal = List.generate(widget.vector.length, (index) {
       double begin = 0.0;
       double end = 0.0;
@@ -308,19 +284,7 @@ class VectorState extends State<Vector> with TickerProviderStateMixin {
     indexAnimateHorizontal.add(index2);
     generateAnimation();
     _horizontalController.forward();
-    await Future.delayed(Duration(milliseconds: (600 / widget.speed).toInt()));
-  }
-
-  Future<void> animateDown(List<int> index) async {
-    indexAnimateVertical.clear();
-    indexAnimateVertical = [...index];
-    generateAnimation();
-    _verticalController.forward();
-    await Future.delayed(Duration(milliseconds: (600 / widget.speed).toInt()));
-  }
-
-  Future<void> animateVerticalReset() async {
-    _verticalController.reset();
+    await Future.delayed(Duration(milliseconds: (850 / widget.speed).toInt()));
   }
 
   @override
@@ -340,7 +304,6 @@ class VectorState extends State<Vector> with TickerProviderStateMixin {
   @override
   void dispose() {
     _horizontalController.dispose();
-    _verticalController.dispose();
     super.dispose();
   }
 
@@ -356,40 +319,69 @@ class VectorState extends State<Vector> with TickerProviderStateMixin {
         ? 100
         : (screenWidth / widget.vector.length);
 
-    return SizedBox(
-      width: sizeContainer * widget.vector.length,
-      height: widget.algorithm == "Merge Sort" &&
-              widget.state == StateAnimation.running
-          ? (sizeContainer * 2.7)
-          : (sizeContainer * 1.7),
-      child: Stack(
-        children: widget.vector.asMap().entries.map((entry) {
-          int index = entry.key;
-          return AnimatedBuilder(
-              animation: Listenable.merge(
-                  [_horizontalController, _verticalController]),
-              builder: (context, child) {
-                double positionLeft = _animationsHorizontal[index].value;
-                double positionTop = _animationsVertical[index].value;
-                return Positioned(
-                  left: positionLeft + (index * sizeContainer),
-                  top: positionTop,
-                  child: ItemsVector(
-                    colorsSelectItem: colorsSelectItem[index],
-                    selectIndexOpacity: selectIndexOpacity[index],
-                    speed: widget.speed,
-                    borderColor: borderColor[index],
-                    //index: index,
-                    length: widget.vector.length,
-                    value: entry.value,
-                    algorithm: widget.algorithm,
-                    opacity: opacity[index],
-                    iconData: icons[index],
-                  ),
-                );
-              });
-        }).toList(),
-      ),
+    return Column(
+      children: [
+        SizedBox(
+          width: sizeContainer * widget.vector.length,
+          height: sizeContainer * 1.7,
+          child: Stack(
+            children: widget.vector.asMap().entries.map((entry) {
+              int index = entry.key;
+              return AnimatedBuilder(
+                  animation: _horizontalController,
+                  builder: (context, child) {
+                    double positionLeft = _animationsHorizontal[index].value;
+                    return Positioned(
+                      left: positionLeft + (index * sizeContainer),
+                      child: ItemsVector(
+                        colorsSelectItem: colorsSelectItem[index],
+                        selectIndexOpacity: selectIndexOpacity[index],
+                        speed: widget.speed,
+                        borderColor: borderColor[index],
+                        //index: index,
+                        length: widget.vector.length,
+                        value: entry.value,
+                        algorithm: widget.algorithm,
+                        opacity: opacity[index],
+                        iconData: icons[index],
+                      ),
+                    );
+                  });
+            }).toList(),
+          ),
+        ),
+        if (widget.algorithm == 'Merge Sort' &&
+            widget.state == StateAnimation.running)
+          SizedBox(
+            width: sizeContainer * widget.vector.length,
+            height: sizeContainer * 1.7,
+            child: Stack(
+              children: widget.vector.asMap().entries.map((entry) {
+                int index = entry.key;
+                return AnimatedBuilder(
+                    animation: _horizontalController,
+                    builder: (context, child) {
+                      double positionLeft = _animationsHorizontal[index].value;
+                      return Positioned(
+                        left: positionLeft + (index * sizeContainer),
+                        child: ItemsVector(
+                          colorsSelectItem: colorsSelectItem[index],
+                          selectIndexOpacity: selectIndexOpacity[index],
+                          speed: widget.speed,
+                          borderColor: borderColor[index],
+                          //index: index,
+                          length: widget.vector.length,
+                          value: entry.value,
+                          algorithm: widget.algorithm,
+                          opacity: opacity[index],
+                          iconData: icons[index],
+                        ),
+                      );
+                    });
+              }).toList(),
+            ),
+          ),
+      ],
     );
   }
 }

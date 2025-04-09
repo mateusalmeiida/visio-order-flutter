@@ -151,15 +151,14 @@ class Algorithms with ChangeNotifier {
       merged.add(list[j++]);
     }
 
-    vectorKey.currentState
-        ?.animateDown(List.generate(end - start + 1, (k) => start + k));
+    /*vectorKey.currentState
+        ?.animateDown(List.generate(end - start + 1, (k) => start + k));*/
 
     for (int k = 0; k < merged.length; k++) {
       list[start + k] = merged[k];
       // Atualiza visualização passo a passo
     }
     await vectorKey.currentState?.delay(500);
-    vectorKey.currentState?.animateVerticalReset();
     print(list);
     if (setList(list, true)) return -1;
 
