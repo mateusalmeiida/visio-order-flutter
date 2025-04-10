@@ -101,10 +101,9 @@ class Algorithms with ChangeNotifier {
             position, position - 1, currentValue, list[position - 1]);
         await vectorKey.currentState?.compareContainers(position, position - 1);
       }
-
-      for (int i = 0; i <= index; i++) {
-        vectorKey.currentState?.setOrdered(i);
-      }
+    }
+    for (int i = 0; i < list.length; i++) {
+      vectorKey.currentState?.setOrdered(i);
     }
   }
 

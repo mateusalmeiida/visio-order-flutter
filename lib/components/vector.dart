@@ -285,7 +285,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
       borderColor[index] = Colors.white;
       borderColor[index2] = Colors.white;
     });
-    await Future.delayed(Duration(milliseconds: (200 / widget.speed).toInt()));
+    await Future.delayed(Duration(milliseconds: (300 / widget.speed).toInt()));
   }
 
   void generateAnimation() {
