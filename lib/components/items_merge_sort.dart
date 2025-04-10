@@ -71,23 +71,27 @@ class _ItemsMergeSortState extends State<ItemsMergeSort> {
             decoration: BoxDecoration(
               border: Border.all(color: widget.borderColor, width: 2),
               borderRadius: BorderRadius.circular(5),
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: widget.colors,
-              ),
             ),
-            child: AnimatedDefaultTextStyle(
-              duration: Duration(milliseconds: (500 / widget.speed).toInt()),
-              style: TextStyle(
-                color: widget.borderColor,
-                fontWeight: FontWeight.bold,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: widget.colors,
+                ),
               ),
-              child: FittedBox(
-                child: Padding(
-                  padding: const EdgeInsets.all(3),
-                  child: Text(
-                    widget.value.toString().padLeft(2, '0'),
+              child: AnimatedDefaultTextStyle(
+                duration: Duration(milliseconds: (500 / widget.speed).toInt()),
+                style: TextStyle(
+                  color: widget.borderColor,
+                  fontWeight: FontWeight.bold,
+                ),
+                child: FittedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.all(3),
+                    child: Text(
+                      widget.value.toString().padLeft(2, '0'),
+                    ),
                   ),
                 ),
               ),

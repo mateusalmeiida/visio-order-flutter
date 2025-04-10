@@ -2,8 +2,7 @@ import 'package:flutter/foundation.dart';
 
 class DataList with ChangeNotifier {
   final List<int> _dataList = [];
-  final List<int> _mergeListLeft = [];
-  final List<int> _mergeListRight = [];
+  final List<int> _mergeList = [];
   final List<String> _algorithmList = [
     'Bubble Sort',
     'Selection Sort',
@@ -22,29 +21,18 @@ class DataList with ChangeNotifier {
     notifyListeners();
   }
 
-  List<int> get getMergeListRight {
-    return [..._mergeListRight];
+  List<int> get getMergeList {
+    return [..._mergeList];
   }
 
-  void setMergeListRight(List<int> list) {
-    _mergeListRight.clear();
-    _mergeListRight.addAll(list);
+  void setMergeList(List<int> list) {
+    _mergeList.clear();
+    _mergeList.addAll(list);
     notifyListeners();
   }
 
-  List<int> get getMergeListLeft {
-    return [..._mergeListLeft];
-  }
-
-  void setMergeListLeft(List<int> list) {
-    _mergeListLeft.clear();
-    _mergeListLeft.addAll(list);
-    notifyListeners();
-  }
-
-  void clearMergeLists() {
-    _mergeListLeft.clear();
-    _mergeListRight.clear();
+  void clearMergeList() {
+    _mergeList.clear();
   }
 
   List<int> get getDataList {

@@ -6,14 +6,12 @@ import 'package:visio_order/pages/preview_page.dart';
 
 class Vector extends StatefulWidget {
   final List<int> vector;
-  final List<int>? mergeListLeft;
-  final List<int>? mergeListRight;
+  final List<int> mergeList;
   final String algorithm;
   final double speed;
   final StateAnimation state;
   const Vector({
-    this.mergeListLeft,
-    this.mergeListRight,
+    required this.mergeList,
     required this.state,
     required this.speed,
     required this.vector,
@@ -31,6 +29,8 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
   List<int> indexAnimateHorizontal = [];
   late List<IconData> icons;
   late List<double> opacity;
+  late List<double> opacityIcons;
+  late List<double> opacityContainer;
   late List<double> selectIndexOpacity;
   late List<Color> borderColor;
   late List<List<Color>> colorsSelectItem;
@@ -86,6 +86,12 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     });
     opacity = List.generate(widget.vector.length, (_) {
       return 0.0;
+    });
+    opacityIcons = List.generate(widget.vector.length, (_) {
+      return 0.0;
+    });
+    opacityContainer = List.generate(widget.vector.length, (_) {
+      return 1.0;
     });
     selectIndexOpacity = List.generate(widget.vector.length, (_) {
       return 0.0;
@@ -170,6 +176,29 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     setState(() {
       selectIndexOpacity[index] = 1.0;
     });
+  }
+
+  Future<void> mergeSelectIndex(List<int> indexs) async {
+    for (var index in indexs) {
+      if (index < 0 || index >= widget.vector.length) {
+        return;
+      }
+      setState(() {
+        opacityContainer[index] = 0.0;
+      });
+    }
+    await delay(500);
+  }
+
+  Future<void> mergeUnselectIndex(List<int> indexs) async {
+    for (var index in indexs) {
+      if (index < 0 || index >= widget.vector.length) {
+        return;
+      }
+      setState(() {
+        opacityContainer[index] = 1.0;
+      });
+    }
   }
 
   void indexUncheck(int index) {
@@ -315,6 +344,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     final double sizeContainer = (screenWidth / widget.vector.length) > 100
         ? 100
         : (screenWidth / widget.vector.length);
+    final int midMerge = (0 + widget.mergeList.length - 1) ~/ 2;
 
     return Column(
       children: [
@@ -331,6 +361,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
                     return Positioned(
                       left: positionLeft + (index * sizeContainer),
                       child: ItemsVector(
+                        opacityContainer: opacityContainer[index],
                         colorsSelectItem: colorsSelectItem[index],
                         selectIndexOpacity: selectIndexOpacity[index],
                         speed: widget.speed,
@@ -349,59 +380,30 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
         ),
         if (widget.algorithm == 'Merge Sort' &&
             widget.state == StateAnimation.running)
-          Row(
-            children: [
-              SizedBox(
-                width: sizeContainer * (widget.mergeListLeft?.length ?? 0),
-                height: sizeContainer * 1.7,
-                child: Stack(
-                  children:
-                      (widget.mergeListLeft ?? []).asMap().entries.map((entry) {
-                    int index = entry.key;
-                    return Positioned(
-                      left: index * sizeContainer,
-                      child: ItemsMergeSort(
-                        value: entry.value,
-                        colorsSelectItem: colorsSelectItem[index],
-                        borderColor: borderColor[index],
-                        speed: widget.speed,
-                        opacityIcons: opacity[index],
-                        selectIndexOpacity: selectIndexOpacity[index],
-                        colors: [Colors.grey[300]!, Colors.grey],
-                        iconData: icons[index],
-                        length: widget.vector.length,
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-              SizedBox(
-                width: sizeContainer * (widget.mergeListRight?.length ?? 0),
-                height: sizeContainer * 1.7,
-                child: Stack(
-                  children: (widget.mergeListRight ?? [])
-                      .asMap()
-                      .entries
-                      .map((entry) {
-                    int index = entry.key;
-                    return Positioned(
-                      left: index * sizeContainer,
-                      child: ItemsMergeSort(
-                        value: entry.value,
-                        colorsSelectItem: colorsSelectItem[index],
-                        borderColor: borderColor[index],
-                        speed: widget.speed,
-                        opacityIcons: opacity[index],
-                        selectIndexOpacity: selectIndexOpacity[index],
-                        colors: [Colors.amber[200]!, Colors.amber],
-                        iconData: icons[index],
-                        length: widget.vector.length,
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
+          SizedBox(
+            width: sizeContainer * widget.mergeList.length,
+            height: sizeContainer * 1.7,
+            child: Stack(
+              children: widget.mergeList.asMap().entries.map((entry) {
+                int index = entry.key;
+                return Positioned(
+                  left: index * sizeContainer,
+                  child: ItemsMergeSort(
+                    value: entry.value,
+                    colorsSelectItem: colorsSelectItem[index],
+                    borderColor: borderColor[index],
+                    speed: widget.speed,
+                    opacityIcons: opacityIcons[index],
+                    selectIndexOpacity: selectIndexOpacity[index],
+                    colors: index <= midMerge
+                        ? [Colors.grey[300]!, Colors.grey]
+                        : [Color(0xFFE6D3B3), Color(0xFFD2B48C)],
+                    iconData: icons[index],
+                    length: widget.vector.length,
+                  ),
+                );
+              }).toList(),
+            ),
           ),
       ],
     );

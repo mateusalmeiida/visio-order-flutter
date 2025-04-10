@@ -5,6 +5,7 @@ import 'package:visio_order/data/colors_data.dart';
 class ItemsVector extends StatefulWidget {
   final String algorithm;
   final double opacity;
+  final double opacityContainer;
   final IconData iconData;
   final Color borderColor;
   final double selectIndexOpacity;
@@ -14,6 +15,7 @@ class ItemsVector extends StatefulWidget {
   final int length;
   final double speed;
   const ItemsVector({
+    required this.opacityContainer,
     required this.colorsSelectItem,
     required this.speed,
     required this.borderColor,
@@ -33,11 +35,6 @@ class ItemsVector extends StatefulWidget {
 
 class ItemsVectorState extends State<ItemsVector> {
   late Color colorIcon;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,28 +70,32 @@ class ItemsVectorState extends State<ItemsVector> {
         SizedBox(
           height: sizeContainer,
           width: sizeContainer,
-          child: AnimatedContainer(
+          child: AnimatedOpacity(
+            opacity: widget.opacityContainer,
             duration: Duration(milliseconds: (500 / widget.speed).toInt()),
-            decoration: BoxDecoration(
-              border: Border.all(color: widget.borderColor, width: 2),
-              borderRadius: BorderRadius.circular(5),
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: ColorsData.colorsAlgorithm[widget.algorithm] ??
-                      [Colors.blue]),
-            ),
-            child: AnimatedDefaultTextStyle(
+            child: AnimatedContainer(
               duration: Duration(milliseconds: (500 / widget.speed).toInt()),
-              style: TextStyle(
-                color: widget.borderColor,
-                fontWeight: FontWeight.bold,
+              decoration: BoxDecoration(
+                border: Border.all(color: widget.borderColor, width: 2),
+                borderRadius: BorderRadius.circular(5),
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: ColorsData.colorsAlgorithm[widget.algorithm] ??
+                        [Colors.blue]),
               ),
-              child: FittedBox(
-                child: Padding(
-                  padding: const EdgeInsets.all(3),
-                  child: Text(
-                    widget.value.toString().padLeft(2, '0'),
+              child: AnimatedDefaultTextStyle(
+                duration: Duration(milliseconds: (500 / widget.speed).toInt()),
+                style: TextStyle(
+                  color: widget.borderColor,
+                  fontWeight: FontWeight.bold,
+                ),
+                child: FittedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.all(3),
+                    child: Text(
+                      widget.value.toString().padLeft(2, '0'),
+                    ),
                   ),
                 ),
               ),

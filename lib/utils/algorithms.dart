@@ -132,6 +132,15 @@ class Algorithms with ChangeNotifier {
     int i = start;
     int j = mid + 1;
 
+    dataList.setMergeList(List.from(list.sublist(start, end + 1)));
+
+    await vectorKey.currentState?.mergeSelectIndex(
+      [
+        ...List.generate(mid - start + 1, (i) => start + i),
+        ...List.generate(end - mid, (i) => mid + 1 + i),
+      ],
+    );
+
     while (i <= mid && j <= end) {
       //await vectorKey.currentState?.compareContainers(i, j);
       //await vectorKey.currentState?.delay(300);
@@ -151,16 +160,16 @@ class Algorithms with ChangeNotifier {
       merged.add(list[j++]);
     }
 
-    dataList.setMergeListLeft(List.from(list.sublist(start, mid + 1)));
-    print(list.sublist(start, mid + 1));
-    dataList.setMergeListRight(List.from(list.sublist(mid + 1, end + 1)));
-    print(list.sublist(mid + 1, end + 1));
-
     for (int k = 0; k < merged.length; k++) {
       list[start + k] = merged[k];
-      // Atualiza visualização passo a passo
     }
-    await vectorKey.currentState?.delay(500);
+    vectorKey.currentState?.mergeUnselectIndex(
+      [
+        ...List.generate(mid - start + 1, (i) => start + i),
+        ...List.generate(end - mid, (i) => mid + 1 + i),
+      ],
+    );
+    await vectorKey.currentState?.delay(1000);
     if (setList(list, true)) return -1;
 
     // Marcar como ordenado se quiser
