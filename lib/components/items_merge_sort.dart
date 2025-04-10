@@ -7,21 +7,17 @@ class ItemsMergeSort extends StatefulWidget {
   final List<Color> colors;
   final double opacityIconsMerge;
   final double opacityContainerMerge;
-  final double selectIndexOpacity;
   final double speed;
   final Color borderColor;
-  final List<Color> colorsSelectItem;
   final int value;
 
   const ItemsMergeSort({
     super.key,
     required this.opacityContainerMerge,
     required this.value,
-    required this.colorsSelectItem,
     required this.borderColor,
     required this.speed,
     required this.opacityIconsMerge,
-    required this.selectIndexOpacity,
     required this.colors,
     required this.iconData,
     required this.length,
@@ -105,25 +101,6 @@ class _ItemsMergeSortState extends State<ItemsMergeSort> {
             ),
           ),
         ),
-        SizedBox(
-          height: 0.2 * sizeContainer,
-          width: sizeContainer,
-          child: Center(
-            child: SizedBox(
-              height: 0.08 * sizeContainer,
-              width: sizeContainer * 0.95,
-              child: AnimatedOpacity(
-                duration: Duration(milliseconds: (200 / widget.speed).toInt()),
-                opacity: widget.selectIndexOpacity,
-                child: Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: widget.colorsSelectItem),
-                      borderRadius: BorderRadius.circular(15)),
-                ),
-              ),
-            ),
-          ),
-        )
       ],
     );
   }

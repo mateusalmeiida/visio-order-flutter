@@ -171,6 +171,7 @@ class Algorithms with ChangeNotifier {
 
     while (i <= mid) {
       list[k] = temp[i - start];
+      await vectorKey.currentState?.lightContainerMerge(i - start);
       if (setList(list, true)) return -1;
       vectorKey.currentState?.hideContainerMerge(i - start);
       vectorKey.currentState?.mergeUnselectIndex([k]);
@@ -182,6 +183,7 @@ class Algorithms with ChangeNotifier {
 
     while (j <= end) {
       list[k] = temp[j - start];
+      await vectorKey.currentState?.lightContainerMerge(j - start);
       if (setList(list, true)) return -1;
       vectorKey.currentState?.hideContainerMerge(j - start);
       await vectorKey.currentState?.mergeUnselectIndex([k]);
