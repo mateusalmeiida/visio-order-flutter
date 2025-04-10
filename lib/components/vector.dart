@@ -393,7 +393,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
                         speed: widget.speed,
                         opacityIcons: opacity[index],
                         selectIndexOpacity: selectIndexOpacity[index],
-                        colors: [Colors.amber, Colors.amber[700]!],
+                        colors: [Colors.amber[200]!, Colors.amber],
                         iconData: icons[index],
                         length: widget.vector.length,
                       ),
