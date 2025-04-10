@@ -5,10 +5,14 @@ import 'package:visio_order/pages/preview_page.dart';
 
 class Vector extends StatefulWidget {
   final List<int> vector;
+  final List<int>? mergeListLeft;
+  final List<int>? mergeListRight;
   final String algorithm;
   final double speed;
   final StateAnimation state;
   const Vector({
+    this.mergeListLeft,
+    this.mergeListRight,
     required this.state,
     required this.speed,
     required this.vector,
@@ -293,14 +297,6 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     generateAnimation();
   }
 
-  /*@override
-  void didUpdateWidget(Vector oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.vector != widget.vector) {
-      generateAnimation();
-    }
-  }*/
-
   @override
   void dispose() {
     _horizontalController.dispose();
@@ -352,34 +348,61 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
         ),
         if (widget.algorithm == 'Merge Sort' &&
             widget.state == StateAnimation.running)
-          SizedBox(
-            width: sizeContainer * widget.vector.length,
-            height: sizeContainer * 1.7,
-            child: Stack(
-              children: widget.vector.asMap().entries.map((entry) {
-                int index = entry.key;
-                return AnimatedBuilder(
-                    animation: _horizontalController,
-                    builder: (context, child) {
-                      double positionLeft = _animationsHorizontal[index].value;
-                      return Positioned(
-                        left: positionLeft + (index * sizeContainer),
-                        child: ItemsVector(
-                          colorsSelectItem: colorsSelectItem[index],
-                          selectIndexOpacity: selectIndexOpacity[index],
-                          speed: widget.speed,
-                          borderColor: borderColor[index],
-                          //index: index,
-                          length: widget.vector.length,
-                          value: entry.value,
-                          algorithm: widget.algorithm,
-                          opacity: opacity[index],
-                          iconData: icons[index],
-                        ),
-                      );
-                    });
-              }).toList(),
-            ),
+          Row(
+            children: [
+              SizedBox(
+                width: sizeContainer * (widget.mergeListLeft?.length ?? 0),
+                height: sizeContainer * 1.7,
+                child: Stack(
+                  children:
+                      (widget.mergeListLeft ?? []).asMap().entries.map((entry) {
+                    int index = entry.key;
+                    return Positioned(
+                      left: index * sizeContainer,
+                      child: ItemsVector(
+                        colorsSelectItem: colorsSelectItem[index],
+                        selectIndexOpacity: selectIndexOpacity[index],
+                        speed: widget.speed,
+                        borderColor: borderColor[index],
+                        //index: index,
+                        length: widget.vector.length,
+                        value: entry.value,
+                        algorithm: widget.algorithm,
+                        opacity: opacity[index],
+                        iconData: icons[index],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+              SizedBox(
+                width: sizeContainer * (widget.mergeListRight?.length ?? 0),
+                height: sizeContainer * 1.7,
+                child: Stack(
+                  children: (widget.mergeListRight ?? [])
+                      .asMap()
+                      .entries
+                      .map((entry) {
+                    int index = entry.key;
+                    return Positioned(
+                      left: index * sizeContainer,
+                      child: ItemsVector(
+                        colorsSelectItem: colorsSelectItem[index],
+                        selectIndexOpacity: selectIndexOpacity[index],
+                        speed: widget.speed,
+                        borderColor: borderColor[index],
+                        //index: index,
+                        length: widget.vector.length,
+                        value: entry.value,
+                        algorithm: widget.algorithm,
+                        opacity: opacity[index],
+                        iconData: icons[index],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
           ),
       ],
     );

@@ -82,6 +82,8 @@ class _PreviewPageState extends State<PreviewPage> {
   @override
   Widget build(BuildContext context) {
     List<int> vector = Provider.of<DataList>(context).getDataList;
+    List<int> mergeListLeft = Provider.of<DataList>(context).getMergeListLeft;
+    List<int> mergeListRight = Provider.of<DataList>(context).getMergeListRight;
     final algorithm =
         Provider.of<DataList>(context, listen: false).getAlgorithm;
 
@@ -139,6 +141,8 @@ class _PreviewPageState extends State<PreviewPage> {
               SizedBox(height: screenHeight * 0.12),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Vector(
+                  mergeListLeft: mergeListLeft,
+                  mergeListRight: mergeListRight,
                   state: _stateAnimation,
                   speed: _speedAnimation[_indexSpeed],
                   key: _vectorKey,

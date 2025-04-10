@@ -151,15 +151,16 @@ class Algorithms with ChangeNotifier {
       merged.add(list[j++]);
     }
 
-    /*vectorKey.currentState
-        ?.animateDown(List.generate(end - start + 1, (k) => start + k));*/
+    dataList.setMergeListLeft(List.from(list.sublist(start, mid + 1)));
+    print(list.sublist(start, mid + 1));
+    dataList.setMergeListRight(List.from(list.sublist(mid + 1, end + 1)));
+    print(list.sublist(mid + 1, end + 1));
 
     for (int k = 0; k < merged.length; k++) {
       list[start + k] = merged[k];
       // Atualiza visualização passo a passo
     }
     await vectorKey.currentState?.delay(500);
-    print(list);
     if (setList(list, true)) return -1;
 
     // Marcar como ordenado se quiser
