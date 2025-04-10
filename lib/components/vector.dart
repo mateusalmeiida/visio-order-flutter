@@ -32,6 +32,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
   late List<double> opacity;
   late List<double> opacityIconsMerge;
   late List<double> opacityContainer;
+  Map<int, bool> _hiddenIndices = {};
   late List<double> selectIndexOpacity;
   late List<double> selectIndexOpacityMerge;
   late List<Color> borderColor;
@@ -64,6 +65,16 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     colorsSelectItemMerge = List.generate(widget.vector.length, (_) {
       return [Colors.purpleAccent[200]!, Colors.purple];
     });
+
+    final newLength = widget.mergeList.length;
+
+    // Remove estados de índices que não existem mais
+    _hiddenIndices.removeWhere((index, _) => index >= newLength);
+
+    // Adiciona novos índices que ainda não existiam
+    for (int i = 0; i < newLength; i++) {
+      _hiddenIndices.putIfAbsent(i, () => false);
+    }
   }
 
   @override
@@ -107,14 +118,15 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     opacity = List.generate(widget.vector.length, (_) {
       return 0.0;
     });
-
     opacityIconsMerge = List.generate(widget.mergeList.length, (_) {
       return 0.0;
     });
-
     opacityContainer = List.generate(widget.vector.length, (_) {
       return 1.0;
     });
+    for (int i = 0; i < widget.mergeList.length; i++) {
+      _hiddenIndices[i] = false;
+    }
     selectIndexOpacity = List.generate(widget.vector.length, (_) {
       return 0.0;
     });
@@ -198,6 +210,21 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
       icons[index2] = FontAwesomeIcons.equals;
       icons[index] = FontAwesomeIcons.equals;
     }
+  }
+
+  void hideContainerMerge(int index) {
+    if (index < 0 || index >= widget.mergeList.length) {
+      return;
+    }
+    setState(() {
+      _hiddenIndices[index] = true;
+    });
+  }
+
+  void showAllContainersMerge() {
+    setState(() {
+      _hiddenIndices.updateAll((key, value) => false);
+    });
   }
 
   void changeIconMerge(int index, int index2, int value, int value2) {
@@ -465,6 +492,8 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
                 return Positioned(
                   left: index * sizeContainer,
                   child: ItemsMergeSort(
+                    opacityContainerMerge:
+                        _hiddenIndices[index] == true ? 0.0 : 1.0,
                     value: entry.value,
                     colorsSelectItem: colorsSelectItemMerge[index],
                     borderColor: borderColorMerge[index],

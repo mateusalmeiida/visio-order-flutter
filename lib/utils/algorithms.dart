@@ -110,6 +110,7 @@ class Algorithms with ChangeNotifier {
   Future<void> _mergeSort(List<int> list, Function setList,
       GlobalKey<VectorState> vectorKey) async {
     await _mergeSortHelper(list, 0, list.length - 1, setList, vectorKey);
+    dataList.clearMergeList();
   }
 
   Future<void> _mergeSortHelper(List<int> list, int start, int end,
@@ -127,11 +128,13 @@ class Algorithms with ChangeNotifier {
 
   Future<int> _merge(List<int> list, int start, int mid, int end,
       Function setList, GlobalKey<VectorState> vectorKey) async {
-    List<int> merged = [];
+    List<int> temp = list.sublist(start, end + 1);
     int i = start;
     int j = mid + 1;
+    int k = start;
 
-    dataList.setMergeList(List.from(list.sublist(start, end + 1)));
+    vectorKey.currentState?.showAllContainersMerge();
+    dataList.setMergeList(List.from(temp));
 
     await vectorKey.currentState?.mergeSelectIndex(
       [
@@ -147,37 +150,55 @@ class Algorithms with ChangeNotifier {
           ?.compareContainersMerge(i - start, j - start);
       await vectorKey.currentState?.delay(300);
 
-      if (list[i] <= list[j]) {
-        merged.add(list[i++]);
+      if (temp[i - start] <= temp[j - start]) {
+        list[k] = temp[i - start];
+        if (setList(list, true)) return -1;
+        vectorKey.currentState?.mergeUnselectIndex([k]);
+        vectorKey.currentState?.hideContainerMerge(i - start);
+        await vectorKey.currentState?.delay(500);
+        i++;
+        k++;
       } else {
-        merged.add(list[j++]);
+        list[k] = temp[j - start];
+        if (setList(list, true)) return -1;
+        await vectorKey.currentState?.mergeUnselectIndex([k]);
+        vectorKey.currentState?.hideContainerMerge(j - start);
+        await vectorKey.currentState?.delay(500);
+        j++;
+        k++;
       }
     }
 
     while (i <= mid) {
-      merged.add(list[i++]);
+      list[k] = temp[i - start];
+      if (setList(list, true)) return -1;
+      vectorKey.currentState?.hideContainerMerge(i - start);
+      vectorKey.currentState?.mergeUnselectIndex([k]);
+      await vectorKey.currentState?.delay(500);
+
+      i++;
+      k++;
     }
 
     while (j <= end) {
-      merged.add(list[j++]);
+      list[k] = temp[j - start];
+      if (setList(list, true)) return -1;
+      vectorKey.currentState?.hideContainerMerge(j - start);
+      await vectorKey.currentState?.mergeUnselectIndex([k]);
+      await vectorKey.currentState?.delay(500);
+
+      j++;
+      k++;
     }
 
-    for (int k = 0; k < merged.length; k++) {
-      list[start + k] = merged[k];
-    }
-    vectorKey.currentState?.mergeUnselectIndex(
+    /*vectorKey.currentState?.mergeUnselectIndex(
       [
         ...List.generate(mid - start + 1, (i) => start + i),
         ...List.generate(end - mid, (i) => mid + 1 + i),
       ],
-    );
-    await vectorKey.currentState?.delay(1000);
-    if (setList(list, true)) return -1;
-
-    // Marcar como ordenado se quiser
-    /*for (int x = start; x <= end; x++) {
-      vectorKey.currentState?.setOrdered(x);
-    }*/
+    );*/
+    /*await vectorKey.currentState?.delay(1000);
+    if (setList(list, true)) return -1;*/
 
     return 0;
   }

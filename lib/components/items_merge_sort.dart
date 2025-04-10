@@ -6,6 +6,7 @@ class ItemsMergeSort extends StatefulWidget {
   final int length;
   final List<Color> colors;
   final double opacityIconsMerge;
+  final double opacityContainerMerge;
   final double selectIndexOpacity;
   final double speed;
   final Color borderColor;
@@ -14,6 +15,7 @@ class ItemsMergeSort extends StatefulWidget {
 
   const ItemsMergeSort({
     super.key,
+    required this.opacityContainerMerge,
     required this.value,
     required this.colorsSelectItem,
     required this.borderColor,
@@ -66,31 +68,36 @@ class _ItemsMergeSortState extends State<ItemsMergeSort> {
         SizedBox(
           height: sizeContainer,
           width: sizeContainer,
-          child: AnimatedContainer(
+          child: AnimatedOpacity(
+            opacity: widget.opacityContainerMerge,
             duration: Duration(milliseconds: (500 / widget.speed).toInt()),
-            decoration: BoxDecoration(
-              border: Border.all(color: widget.borderColor, width: 2),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Container(
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: (500 / widget.speed).toInt()),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: widget.colors,
-                ),
+                border: Border.all(color: widget.borderColor, width: 2),
+                borderRadius: BorderRadius.circular(5),
               ),
-              child: AnimatedDefaultTextStyle(
-                duration: Duration(milliseconds: (500 / widget.speed).toInt()),
-                style: TextStyle(
-                  color: widget.borderColor,
-                  fontWeight: FontWeight.bold,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: widget.colors,
+                  ),
                 ),
-                child: FittedBox(
-                  child: Padding(
-                    padding: const EdgeInsets.all(3),
-                    child: Text(
-                      widget.value.toString().padLeft(2, '0'),
+                child: AnimatedDefaultTextStyle(
+                  duration:
+                      Duration(milliseconds: (500 / widget.speed).toInt()),
+                  style: TextStyle(
+                    color: widget.borderColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  child: FittedBox(
+                    child: Padding(
+                      padding: const EdgeInsets.all(3),
+                      child: Text(
+                        widget.value.toString().padLeft(2, '0'),
+                      ),
                     ),
                   ),
                 ),
