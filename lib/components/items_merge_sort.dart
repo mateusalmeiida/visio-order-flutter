@@ -5,7 +5,7 @@ class ItemsMergeSort extends StatefulWidget {
   final IconData iconData;
   final int length;
   final List<Color> colors;
-  final double opacityIcons;
+  final double opacityIconsMerge;
   final double selectIndexOpacity;
   final double speed;
   final Color borderColor;
@@ -18,7 +18,7 @@ class ItemsMergeSort extends StatefulWidget {
     required this.colorsSelectItem,
     required this.borderColor,
     required this.speed,
-    required this.opacityIcons,
+    required this.opacityIconsMerge,
     required this.selectIndexOpacity,
     required this.colors,
     required this.iconData,
@@ -49,7 +49,7 @@ class _ItemsMergeSortState extends State<ItemsMergeSort> {
     return Column(
       children: [
         AnimatedOpacity(
-          opacity: widget.opacityIcons,
+          opacity: widget.opacityIconsMerge,
           duration: Duration(milliseconds: (500 / widget.speed).toInt()),
           child: SizedBox(
             height: 0.4 * sizeContainer,

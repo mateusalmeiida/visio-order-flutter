@@ -141,8 +141,11 @@ class Algorithms with ChangeNotifier {
     );
 
     while (i <= mid && j <= end) {
-      //await vectorKey.currentState?.compareContainers(i, j);
-      //await vectorKey.currentState?.delay(300);
+      vectorKey.currentState
+          ?.changeIconMerge(i - start, j - start, list[i], list[j]);
+      await vectorKey.currentState
+          ?.compareContainersMerge(i - start, j - start);
+      await vectorKey.currentState?.delay(300);
 
       if (list[i] <= list[j]) {
         merged.add(list[i++]);

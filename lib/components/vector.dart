@@ -28,12 +28,16 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
   late List<Animation<double>> _animationsHorizontal;
   List<int> indexAnimateHorizontal = [];
   late List<IconData> icons;
+  late List<IconData> iconsMerge;
   late List<double> opacity;
-  late List<double> opacityIcons;
+  late List<double> opacityIconsMerge;
   late List<double> opacityContainer;
   late List<double> selectIndexOpacity;
+  late List<double> selectIndexOpacityMerge;
   late List<Color> borderColor;
+  late List<Color> borderColorMerge;
   late List<List<Color>> colorsSelectItem;
+  late List<List<Color>> colorsSelectItemMerge;
 
   @override
   void didUpdateWidget(Vector oldWidget) {
@@ -47,6 +51,19 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     if (oldWidget.vector != widget.vector) {
       generateAnimation();
     }
+
+    opacityIconsMerge = List.generate(widget.mergeList.length, (_) => 0.0);
+    borderColorMerge =
+        List.generate(widget.mergeList.length, (_) => Colors.white);
+    iconsMerge = List.generate(widget.vector.length, (_) {
+      return FontAwesomeIcons.equals;
+    });
+    selectIndexOpacityMerge = List.generate(widget.vector.length, (_) {
+      return 0.0;
+    });
+    colorsSelectItemMerge = List.generate(widget.vector.length, (_) {
+      return [Colors.purpleAccent[200]!, Colors.purple];
+    });
   }
 
   @override
@@ -84,22 +101,36 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     icons = List.generate(widget.vector.length, (_) {
       return FontAwesomeIcons.equals;
     });
+    iconsMerge = List.generate(widget.vector.length, (_) {
+      return FontAwesomeIcons.equals;
+    });
     opacity = List.generate(widget.vector.length, (_) {
       return 0.0;
     });
-    opacityIcons = List.generate(widget.vector.length, (_) {
+
+    opacityIconsMerge = List.generate(widget.mergeList.length, (_) {
       return 0.0;
     });
+
     opacityContainer = List.generate(widget.vector.length, (_) {
       return 1.0;
     });
     selectIndexOpacity = List.generate(widget.vector.length, (_) {
       return 0.0;
     });
+    selectIndexOpacityMerge = List.generate(widget.vector.length, (_) {
+      return 0.0;
+    });
     borderColor = List.generate(widget.vector.length, (_) {
       return Colors.white;
     });
+    borderColorMerge = List.generate(widget.mergeList.length, (_) {
+      return Colors.white;
+    });
     colorsSelectItem = List.generate(widget.vector.length, (_) {
+      return [Colors.purpleAccent[200]!, Colors.purple];
+    });
+    colorsSelectItemMerge = List.generate(widget.vector.length, (_) {
       return [Colors.purpleAccent[200]!, Colors.purple];
     });
   }
@@ -166,6 +197,25 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     } else {
       icons[index2] = FontAwesomeIcons.equals;
       icons[index] = FontAwesomeIcons.equals;
+    }
+  }
+
+  void changeIconMerge(int index, int index2, int value, int value2) {
+    if (index < 0 ||
+        index >= widget.mergeList.length ||
+        index2 < 0 ||
+        index2 >= widget.mergeList.length) {
+      return;
+    }
+    if (value > value2) {
+      iconsMerge[index] = FontAwesomeIcons.solidCircleUp;
+      iconsMerge[index2] = FontAwesomeIcons.solidCircleDown;
+    } else if (value2 > value) {
+      iconsMerge[index2] = FontAwesomeIcons.solidCircleUp;
+      iconsMerge[index] = FontAwesomeIcons.solidCircleDown;
+    } else {
+      iconsMerge[index2] = FontAwesomeIcons.equals;
+      iconsMerge[index] = FontAwesomeIcons.equals;
     }
   }
 
@@ -288,6 +338,32 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     await Future.delayed(Duration(milliseconds: (300 / widget.speed).toInt()));
   }
 
+  Future<void> compareContainersMerge(int index, int index2) async {
+    if (index < 0 ||
+        index >= widget.mergeList.length ||
+        index2 < 0 ||
+        index2 >= widget.mergeList.length) {
+      return;
+    }
+    setState(() {
+      borderColorMerge[index] = Colors.cyanAccent;
+      borderColorMerge[index2] = Colors.cyanAccent;
+    });
+    await Future.delayed(Duration(milliseconds: (500 / widget.speed).toInt()));
+    setState(() {
+      opacityIconsMerge[index] = 1;
+      opacityIconsMerge[index2] = 1;
+    });
+    await Future.delayed(Duration(milliseconds: (500 / widget.speed).toInt()));
+    setState(() {
+      opacityIconsMerge[index] = 0;
+      opacityIconsMerge[index2] = 0;
+      borderColorMerge[index] = Colors.white;
+      borderColorMerge[index2] = Colors.white;
+    });
+    await Future.delayed(Duration(milliseconds: (300 / widget.speed).toInt()));
+  }
+
   void generateAnimation() {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double sizeContainer = (screenWidth / widget.vector.length) > 100
@@ -390,15 +466,15 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
                   left: index * sizeContainer,
                   child: ItemsMergeSort(
                     value: entry.value,
-                    colorsSelectItem: colorsSelectItem[index],
-                    borderColor: borderColor[index],
+                    colorsSelectItem: colorsSelectItemMerge[index],
+                    borderColor: borderColorMerge[index],
                     speed: widget.speed,
-                    opacityIcons: opacityIcons[index],
-                    selectIndexOpacity: selectIndexOpacity[index],
+                    opacityIconsMerge: opacityIconsMerge[index],
+                    selectIndexOpacity: selectIndexOpacityMerge[index],
                     colors: index <= midMerge
                         ? [Colors.grey[300]!, Colors.grey]
                         : [Color(0xFFE6D3B3), Color(0xFFD2B48C)],
-                    iconData: icons[index],
+                    iconData: iconsMerge[index],
                     length: widget.vector.length,
                   ),
                 );
