@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:visio_order/components/items_merge_sort.dart';
 import 'package:visio_order/components/items_vector.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:visio_order/pages/preview_page.dart';
@@ -359,17 +360,16 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
                     int index = entry.key;
                     return Positioned(
                       left: index * sizeContainer,
-                      child: ItemsVector(
-                        colorsSelectItem: colorsSelectItem[index],
-                        selectIndexOpacity: selectIndexOpacity[index],
-                        speed: widget.speed,
-                        borderColor: borderColor[index],
-                        //index: index,
-                        length: widget.vector.length,
+                      child: ItemsMergeSort(
                         value: entry.value,
-                        algorithm: widget.algorithm,
-                        opacity: opacity[index],
+                        colorsSelectItem: colorsSelectItem[index],
+                        borderColor: borderColor[index],
+                        speed: widget.speed,
+                        opacityIcons: opacity[index],
+                        selectIndexOpacity: selectIndexOpacity[index],
+                        colors: [Colors.grey[300]!, Colors.grey],
                         iconData: icons[index],
+                        length: widget.vector.length,
                       ),
                     );
                   }).toList(),
@@ -386,17 +386,16 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
                     int index = entry.key;
                     return Positioned(
                       left: index * sizeContainer,
-                      child: ItemsVector(
-                        colorsSelectItem: colorsSelectItem[index],
-                        selectIndexOpacity: selectIndexOpacity[index],
-                        speed: widget.speed,
-                        borderColor: borderColor[index],
-                        //index: index,
-                        length: widget.vector.length,
+                      child: ItemsMergeSort(
                         value: entry.value,
-                        algorithm: widget.algorithm,
-                        opacity: opacity[index],
+                        colorsSelectItem: colorsSelectItem[index],
+                        borderColor: borderColor[index],
+                        speed: widget.speed,
+                        opacityIcons: opacity[index],
+                        selectIndexOpacity: selectIndexOpacity[index],
+                        colors: [Colors.amber, Colors.amber[700]!],
                         iconData: icons[index],
+                        length: widget.vector.length,
                       ),
                     );
                   }).toList(),
