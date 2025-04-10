@@ -290,12 +290,12 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     });
   }
 
-  void setOrdered(int index) {
+  void resetBorderColor(int index) {
     if (index < 0 || index >= widget.vector.length) {
       return;
     }
     setState(() {
-      borderColor[index] = Colors.lightGreenAccent;
+      borderColor[index] = Colors.white;
     });
   }
 

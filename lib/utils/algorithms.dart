@@ -48,9 +48,7 @@ class Algorithms with ChangeNotifier {
           await vectorKey.currentState?.delay(350);
         }
       }
-      vectorKey.currentState?.setOrdered(pass);
     }
-    vectorKey.currentState?.setOrdered(0);
   }
 
   Future<void> _selectionSort(List<int> list, Function setList,
@@ -75,7 +73,6 @@ class Algorithms with ChangeNotifier {
         list[minIndex] = temp;
         if (setList(list, true)) return;
       }
-      vectorKey.currentState?.setOrdered(i);
     }
   }
 
@@ -102,9 +99,7 @@ class Algorithms with ChangeNotifier {
         await vectorKey.currentState?.compareContainers(position, position - 1);
       }
     }
-    for (int i = 0; i < list.length; i++) {
-      vectorKey.currentState?.setOrdered(i);
-    }
+    for (int i = 0; i < list.length; i++) {}
   }
 
   Future<void> _mergeSort(List<int> list, Function setList,
@@ -218,7 +213,7 @@ class Algorithms with ChangeNotifier {
       await _quickSortHelper(list, first, splitpoint - 1, setList, vectorKey);
       await _quickSortHelper(list, splitpoint + 1, last, setList, vectorKey);
     } else {
-      vectorKey.currentState?.setOrdered(first);
+      vectorKey.currentState?.resetBorderColor(first);
       await vectorKey.currentState?.delay(500);
     }
   }
@@ -308,7 +303,6 @@ class Algorithms with ChangeNotifier {
     int temp = list[first];
     list[first] = list[rightMark];
     list[rightMark] = temp;
-    vectorKey.currentState?.setOrdered(rightMark);
 
     if (setList(list, true)) return -1;
     print(list);
