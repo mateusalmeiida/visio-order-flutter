@@ -94,16 +94,15 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
       vsync: this,
     );
 
-    _horizontalController.addStatusListener((status) {
+    _horizontalController.addStatusListener((status) async {
       if (status == AnimationStatus.completed) {
-        setState(() {
-          if (indexAnimateHorizontal.length == 2) {
-            int temp = widget.vector[indexAnimateHorizontal[0]];
-            widget.vector[indexAnimateHorizontal[0]] =
-                widget.vector[indexAnimateHorizontal[1]];
-            widget.vector[indexAnimateHorizontal[1]] = temp;
-          }
-        });
+        if (indexAnimateHorizontal.length == 2) {
+          int temp = widget.vector[indexAnimateHorizontal[0]];
+          widget.vector[indexAnimateHorizontal[0]] =
+              widget.vector[indexAnimateHorizontal[1]];
+          widget.vector[indexAnimateHorizontal[1]] = temp;
+          setState(() {});
+        }
 
         _horizontalController.reset();
         indexAnimateHorizontal.clear();
@@ -438,8 +437,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
     indexAnimateHorizontal.add(index1);
     indexAnimateHorizontal.add(index2);
     generateAnimation();
-    _horizontalController.forward();
-    await Future.delayed(Duration(milliseconds: (850 / widget.speed).toInt()));
+    await _horizontalController.forward();
   }
 
   @override
