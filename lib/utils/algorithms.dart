@@ -166,7 +166,7 @@ class Algorithms with ChangeNotifier {
 
     while (i <= mid) {
       list[k] = temp[i - start];
-      await vectorKey.currentState?.lightContainerMerge(i - start);
+      //await vectorKey.currentState?.lightContainerMerge(i - start);
       if (setList(list, true)) return -1;
       vectorKey.currentState?.hideContainerMerge(i - start);
       vectorKey.currentState?.mergeUnselectIndex([k]);
@@ -178,7 +178,7 @@ class Algorithms with ChangeNotifier {
 
     while (j <= end) {
       list[k] = temp[j - start];
-      await vectorKey.currentState?.lightContainerMerge(j - start);
+      //await vectorKey.currentState?.lightContainerMerge(j - start);
       if (setList(list, true)) return -1;
       vectorKey.currentState?.hideContainerMerge(j - start);
       await vectorKey.currentState?.mergeUnselectIndex([k]);
@@ -235,24 +235,27 @@ class Algorithms with ChangeNotifier {
         vectorKey.currentState?.indexUncheck(leftMark - 1);
 
         if (rightMark == leftMark - 1) {
-          if (leftMark < last) {
+          if (leftMark <= last) {
             vectorKey.currentState?.selectLeftmark(leftMark);
           }
           await vectorKey.currentState?.selectRightmark(rightMark);
         } else {
-          if (leftMark < last) {
+          if (leftMark <= last) {
             vectorKey.currentState?.selectLeftmark(leftMark);
           }
         }
       }
 
-      if (leftMark < last && list[leftMark] > pivotValue) {
+      if (leftMark <= last && list[leftMark] > pivotValue) {
         vectorKey.currentState
             ?.changeIcon(first, leftMark, pivotValue, list[leftMark]);
         await vectorKey.currentState?.comparePivo(first, leftMark);
       }
 
       while (list[rightMark] >= pivotValue && rightMark >= leftMark) {
+        if (last - first == 1) {
+          vectorKey.currentState?.selectRightmark(rightMark);
+        }
         vectorKey.currentState
             ?.changeIcon(first, rightMark, pivotValue, list[rightMark]);
         await vectorKey.currentState?.comparePivo(first, rightMark);
@@ -261,8 +264,8 @@ class Algorithms with ChangeNotifier {
         if (leftMark == rightMark + 1) {
           if (rightMark > first) {
             vectorKey.currentState?.selectRightmark(rightMark);
+            await vectorKey.currentState?.selectLeftmark(leftMark);
           }
-          await vectorKey.currentState?.selectLeftmark(leftMark);
         } else {
           if (rightMark > first) {
             vectorKey.currentState?.selectRightmark(rightMark);
@@ -289,7 +292,6 @@ class Algorithms with ChangeNotifier {
         list[rightMark] = temp;
 
         if (setList(list, true)) return -1;
-        print(list);
 
         await vectorKey.currentState?.selectRightAndLeft(leftMark, rightMark);
       }
@@ -305,7 +307,6 @@ class Algorithms with ChangeNotifier {
     list[rightMark] = temp;
 
     if (setList(list, true)) return -1;
-    print(list);
 
     return rightMark;
   }

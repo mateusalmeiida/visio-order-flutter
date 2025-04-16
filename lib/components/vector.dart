@@ -338,7 +338,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
       opacity[index2] = 0;
       borderColor[index2] = Colors.white;
     });
-    await Future.delayed(Duration(milliseconds: (200 / widget.speed).toInt()));
+    await Future.delayed(Duration(milliseconds: (500 / widget.speed).toInt()));
   }
 
   Future<void> compareContainers(int index, int index2) async {
@@ -364,10 +364,11 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
       borderColor[index] = Colors.white;
       borderColor[index2] = Colors.white;
     });
-    await Future.delayed(Duration(milliseconds: (300 / widget.speed).toInt()));
+    await Future.delayed(Duration(milliseconds: (500 / widget.speed).toInt()));
   }
 
-  Future<void> lightContainerMerge(int index) async {
+  //Optei por não usar
+  /*Future<void> lightContainerMerge(int index) async {
     if (index < 0 || index >= widget.mergeList.length) {
       return;
     }
@@ -380,7 +381,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
       borderColorMerge[index] = Colors.white;
     });
     await Future.delayed(Duration(milliseconds: (300 / widget.speed).toInt()));
-  }
+  }*/
 
   Future<void> compareContainersMerge(int index, int index2) async {
     if (index < 0 ||
@@ -405,7 +406,7 @@ class VectorState extends State<Vector> with SingleTickerProviderStateMixin {
       borderColorMerge[index] = Colors.white;
       borderColorMerge[index2] = Colors.white;
     });
-    await Future.delayed(Duration(milliseconds: (300 / widget.speed).toInt()));
+    await Future.delayed(Duration(milliseconds: (500 / widget.speed).toInt()));
   }
 
   void generateAnimation() {
