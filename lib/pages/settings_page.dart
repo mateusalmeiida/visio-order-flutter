@@ -20,12 +20,20 @@ class _SettingsPageState extends State<SettingsPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late int _vectorSize;
   late RunMode _runMode;
+  late FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
     _vectorSize = 2;
     _runMode = RunMode.random;
+    _focusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 
   void _setManualMode() {
@@ -37,21 +45,29 @@ class _SettingsPageState extends State<SettingsPage> {
   void _setRandomMode() {
     setState(() {
       _runMode = RunMode.random;
-      FocusScope.of(context).unfocus();
+      _focusNode.unfocus();
     });
   }
 
   void _submitForm() {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
-      Navigator.of(context).pushNamed(AppRoutes.PREVIWE_PAGE);
+      Navigator.of(context).pushNamed(AppRoutes.PREVIWE_PAGE).then((_) {
+        setState(() {
+          _focusNode.unfocus();
+        });
+      });
     }
   }
 
   void _generateRandom(int length) {
     final List<int> list = GenerateRandom.generateRandomVector(length);
     Provider.of<DataList>(context, listen: false).setDataList(list);
-    Navigator.of(context).pushNamed(AppRoutes.PREVIWE_PAGE);
+    Navigator.of(context).pushNamed(AppRoutes.PREVIWE_PAGE).then((_) {
+      setState(() {
+        _focusNode.unfocus();
+      });
+    });
   }
 
   @override
@@ -239,6 +255,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       child: Container(
                         padding: EdgeInsets.only(left: 10),
                         child: ManualValuesForm(
+                          focusNode: _focusNode,
                           length: _vectorSize,
                           formKey: _formKey,
                         ),

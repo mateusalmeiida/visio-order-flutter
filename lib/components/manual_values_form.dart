@@ -6,9 +6,13 @@ import 'package:visio_order/models/data_list.dart';
 class ManualValuesForm extends StatefulWidget {
   final int length;
   final GlobalKey<FormState> formKey;
+  final FocusNode focusNode;
 
   const ManualValuesForm(
-      {required this.length, required this.formKey, super.key});
+      {required this.length,
+      required this.formKey,
+      super.key,
+      required this.focusNode});
 
   @override
   State<ManualValuesForm> createState() => _ManualValuesFormState();
@@ -29,6 +33,7 @@ class _ManualValuesFormState extends State<ManualValuesForm> {
           child: Form(
             key: widget.formKey,
             child: TextFormField(
+              focusNode: widget.focusNode,
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'[\d,]')),
               ],
