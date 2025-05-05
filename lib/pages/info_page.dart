@@ -66,7 +66,7 @@ class InfoPage extends StatelessWidget {
             ),
             SizedBox(
               width: widthContainerText,
-              child: Text(
+              child: SelectableText(
                   style: TextStyle(fontSize: fontSize),
                   textAlign: TextAlign.justify,
                   'Este aplicativo foi desenvolvido como parte de um Trabalho de Conclusão de Curso (TCC) em Engenharia da Computação, '
@@ -74,7 +74,9 @@ class InfoPage extends StatelessWidget {
                   'Nele, você pode explorar diferentes algoritmos, ajustando a velocidade e observando o funcionamento passo a passo. '
                   'A interface intuitiva permite selecionar o algoritmo, definir o tamanho do conjunto de dados e até inserir valores manualmente para personalizar sua experiência.\n\n'
                   'Este aplicativo é uma ferramenta educacional projetada para facilitar a compreensão dos conceitos e da lógica por '
-                  'trás dos algoritmos de ordenação, sendo ideal para estudantes e entusiastas da área de computação.'),
+                  'trás dos algoritmos de ordenação, sendo ideal para estudantes e entusiastas da área de computação.\n\n'
+                  'Link para o documento escrito:\n'
+                  'https://drive.google.com/drive/folders/1N-U2Tuwl8mtECx2-4g0FxPRggXtkqlpC?usp=sharing'),
             ),
             Container(
               padding: EdgeInsets.only(top: 50),
