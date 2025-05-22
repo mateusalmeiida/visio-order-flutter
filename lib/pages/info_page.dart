@@ -70,7 +70,7 @@ class InfoPage extends StatelessWidget {
                   style: TextStyle(fontSize: fontSize),
                   textAlign: TextAlign.justify,
                   'Este aplicativo foi desenvolvido como parte de um Trabalho de Conclusão de Curso (TCC) em Engenharia da Computação, '
-                  'com o objetivo de auxiliar no aprendizado de algoritmos de ordenação por meio de uma experiência visual e interativa. '
+                  'com o objetivo de possibilitar uma experiência visual e interativa dos principais algoritmos de ordenação conhecidos. '
                   'Nele, você pode explorar diferentes algoritmos, ajustando a velocidade e observando o funcionamento passo a passo. '
                   'A interface intuitiva permite selecionar o algoritmo, definir o tamanho do conjunto de dados e até inserir valores manualmente para personalizar sua experiência.\n\n'
                   'Este aplicativo é uma ferramenta educacional projetada para facilitar a compreensão dos conceitos e da lógica por '
