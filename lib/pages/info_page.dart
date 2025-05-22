@@ -73,8 +73,8 @@ class InfoPage extends StatelessWidget {
                   'com o objetivo de possibilitar uma experiência visual e interativa dos principais algoritmos de ordenação conhecidos. '
                   'Nele, você pode explorar diferentes algoritmos, ajustando a velocidade e observando o funcionamento passo a passo. '
                   'A interface intuitiva permite selecionar o algoritmo, definir o tamanho do conjunto de dados e até inserir valores manualmente para personalizar sua experiência.\n\n'
-                  'Este aplicativo é uma ferramenta educacional projetada para facilitar a compreensão dos conceitos e da lógica por '
-                  'trás dos algoritmos de ordenação, sendo ideal para estudantes e entusiastas da área de computação.\n\n'
+                  'Este aplicativo é uma ferramenta projetada para possibilitar a visualização dos conceitos e da lógica por '
+                  'trás dos algoritmos de ordenação.\n\n'
                   'Link para o documento escrito:\n'
                   'https://drive.google.com/drive/folders/1N-U2Tuwl8mtECx2-4g0FxPRggXtkqlpC?usp=sharing'),
             ),
