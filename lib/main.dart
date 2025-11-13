@@ -3,6 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:visio_order/models/data_list.dart';
 import 'package:visio_order/pages/home_page.dart';
 import 'package:visio_order/pages/info_page.dart';
+import 'package:visio_order/pages/info_page_bubble.dart';
+import 'package:visio_order/pages/info_page_selection.dart';
+import 'package:visio_order/pages/info_page_insertion.dart';
+import 'package:visio_order/pages/info_page_merge.dart';
+import 'package:visio_order/pages/info_page_quick.dart';
 import 'package:visio_order/pages/preview_page.dart';
 import 'package:visio_order/pages/settings_page.dart';
 import 'package:visio_order/utils/algorithms.dart';
@@ -49,6 +54,21 @@ class VisioOrder extends StatelessWidget {
           },
           AppRoutes.INFO_PAGE: (ctx) {
             return InfoPage();
+          },
+          AppRoutes.INFO_PAGE_BUBBLE: (ctx) {
+            return InfoPageBubble();
+          },
+          AppRoutes.INFO_PAGE_SELECTION: (ctx) {
+            return InfoPageSelection();
+          },
+          AppRoutes.INFO_PAGE_INSERTION: (ctx) {
+            return InfoPageInsertion();
+          },
+          AppRoutes.INFO_PAGE_MERGE: (ctx) {
+            return InfoPageMerge();
+          },
+          AppRoutes.INFO_PAGE_QUICK: (ctx) {
+            return InfoPageQuick();
           },
           AppRoutes.PREVIWE_PAGE: (ctx) {
             return PreviewPage();

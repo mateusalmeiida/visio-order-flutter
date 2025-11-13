@@ -141,6 +141,32 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                if (algorithm == 'Bubble Sort') {
+                  Navigator.of(context).pushNamed(AppRoutes.INFO_PAGE_BUBBLE);
+                }
+                if (algorithm == 'Selection Sort') {
+                  Navigator.of(context)
+                      .pushNamed(AppRoutes.INFO_PAGE_SELECTION);
+                }
+                if (algorithm == 'Insertion Sort') {
+                  Navigator.of(context)
+                      .pushNamed(AppRoutes.INFO_PAGE_INSERTION);
+                }
+                if (algorithm == 'Merge Sort') {
+                  Navigator.of(context).pushNamed(AppRoutes.INFO_PAGE_MERGE);
+                }
+                if (algorithm == 'Quick Sort') {
+                  Navigator.of(context).pushNamed(AppRoutes.INFO_PAGE_QUICK);
+                }
+              },
+              icon: Icon(
+                Icons.info,
+                size: 30,
+              ))
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
