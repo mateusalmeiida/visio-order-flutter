@@ -56,12 +56,26 @@ class InfoPageQuick extends StatelessWidget {
               child: SelectableText(
                   style: TextStyle(fontSize: fontSize),
                   textAlign: TextAlign.justify,
-                  'Este aplicativo foi desenvolvido como parte de um Trabalho de Conclusão de Curso (TCC) em Engenharia da Computação, '
-                  'com o objetivo de possibilitar uma experiência visual e interativa dos principais algoritmos de ordenação conhecidos. '
-                  'Nele, você pode explorar diferentes algoritmos, ajustando a velocidade e observando o funcionamento passo a passo. '
-                  'A interface intuitiva permite selecionar o algoritmo, definir o tamanho do conjunto de dados e até inserir valores manualmente para personalizar sua experiência.\n\n'
-                  'Este aplicativo é uma ferramenta projetada para possibilitar a visualização dos conceitos e da lógica por '
-                  'trás dos algoritmos de ordenação.\n\n'),
+                  'O Quick Sort utiliza a abordagem de divisão e conquista. Ele seleciona um valor como pivô que ajuda a dividir a lista em duas sublistas. A escolha do pivô pode ser feita de várias maneiras, por exemplo, o primeiro elemento da lista. Depois de divididas, as sublistas também chamam o Quick Sort para serem ordenadas, por isso, o algoritmo é recursivo. O caso base é uma lista com um ou nenhum elemento, considerada ordenada por definição (Miller & Ranum, 2013).\n\n'
+                  'Após selecionar o elemento pivô, o particionamento inicia posicionando dois marcadores: o esquerdo, marcando a primeira posição após o pivô, e o direito, marcando a última posição da lista. O objetivo é separar os valores maiores que o pivô em um sublista diferente dos valores menores. O marcador esquerdo se move para a direita, caso encontre um valor maior do que o pivô, ele para. O marcador direito se move para a esquerda, caso encontre um valor menor do que o pivô, ele para. Se os dois marcadores pararem, os elementos indicados pelos dois devem trocar de posição.\n\n'
+                  'Depois de trocarem de posição os marcadores seguem fazendo o mesmo processo. Quando o marcador direito indicar uma posição menor do que a indicada pelo marcador esquerdo, eles param. O elemento pivô troca de lugar com o elemento indicado pelo marcador direito e o ponto de divisão é definido. A lista estão é dividida em duas sublistas, uma à esquerda e outra à direita do elemento pivô.\n\n'
+                  'A lista da esquerda contém elementos menores ou iguais ao pivô, enquanto a lista da direita contém elementos maiores ou iguais a ele (Miller & Ranum, 2013). O Quick Sort é chamado recursivamente pelas duas sublistas geradas. A lista original estará ordenada após a execução de todas as instâncias do algoritmo que forem chamadas\n'),
+            ),
+            SizedBox(
+              width: widthContainerText,
+              child: SelectableText(
+                  style: TextStyle(fontSize: fontSize, color: Colors.grey),
+                  textAlign: TextAlign.center,
+                  'Referências'),
+            ),
+            SizedBox(height: 5),
+            SizedBox(
+              width: widthContainerText,
+              child: SelectableText(
+                style: TextStyle(fontSize: fontSize, color: Colors.grey),
+                textAlign: TextAlign.justify,
+                'MILLER, B. N.; RANUM, D. L. Problem Solving with Algorithms and Data Structures using Python. ebook (creative commons edition). Runestone Interactive, 2013. Licensed under a Creative Commons Attribution-NonCommercial- ShareAlike 4.0 International License.',
+              ),
             ),
             SizedBox(height: 50)
           ],

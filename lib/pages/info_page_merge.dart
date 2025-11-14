@@ -56,12 +56,27 @@ class InfoPageMerge extends StatelessWidget {
               child: SelectableText(
                   style: TextStyle(fontSize: fontSize),
                   textAlign: TextAlign.justify,
-                  'Este aplicativo foi desenvolvido como parte de um Trabalho de Conclusão de Curso (TCC) em Engenharia da Computação, '
-                  'com o objetivo de possibilitar uma experiência visual e interativa dos principais algoritmos de ordenação conhecidos. '
-                  'Nele, você pode explorar diferentes algoritmos, ajustando a velocidade e observando o funcionamento passo a passo. '
-                  'A interface intuitiva permite selecionar o algoritmo, definir o tamanho do conjunto de dados e até inserir valores manualmente para personalizar sua experiência.\n\n'
-                  'Este aplicativo é uma ferramenta projetada para possibilitar a visualização dos conceitos e da lógica por '
-                  'trás dos algoritmos de ordenação.\n\n'),
+                  'O Merge Sort utiliza uma abordagem de divisão e conquista, desmembrando a lista a ser ordenada em sublistas menores, classificando de forma independente essas sublistas e depois combinando-as para obter a lista original ordenada (Cormen et al., 2012). \n\n'
+                  'O algoritmo inicia dividindo a lista pela metade e considera cada parte como uma lista independente, essa divisão acontecerá mesmo que a lista tenha um número ímpar de elementos, alocando o elemento extra em um dos segmentos (Miller & Ranum, 2013). As sublistas resultantes são novamente divididas pela metade, esse processo é feito até que cada partição tenha apenas um ou nenhum elemento.\n\n'
+                  'Cada nova divisão dentro das sublistas é considerada uma nova chamada do Merge Sort, onde cada chamada lida com duas sublistas, mas depende do retorno das chamadas subsequentes (Cormen et al., 2012). Listas vazias ou com apenas um elemento, são consideradas como o caso base, ou seja, estão sempre ordenadas (Miller & Ranum, 2013).\n\n'
+                  'Após isso, ocorre o processo de combinação das sublistas, chamado de intercalação. Para cada iteração de intercalação, são utilizados três índices, dois para percorrer os elementos da primeira e segunda sublistas respectivamente, e o terceiro para armazenar os valores de volta na lista principal. \n\n'
+                  'Em cada passo, os elementos das duas sublistas são comparados. Para uma ordenação crescente por exemplo, o menor deles é retirado da sua sublista e inserido na lista principal, assegurando que a lista resultante esteja ordenada (Miller & Ranum, 2013).\n'),
+            ),
+            SizedBox(
+              width: widthContainerText,
+              child: SelectableText(
+                  style: TextStyle(fontSize: fontSize, color: Colors.grey),
+                  textAlign: TextAlign.center,
+                  'Referências'),
+            ),
+            SizedBox(height: 5),
+            SizedBox(
+              width: widthContainerText,
+              child: SelectableText(
+                  style: TextStyle(fontSize: fontSize, color: Colors.grey),
+                  textAlign: TextAlign.justify,
+                  'CORMEN, T. H. et al. Algoritmos: Teoria e Prática. 3. ed: Elsevier, 2012.\n\n'
+                  'MILLER, B. N.; RANUM, D. L. Problem Solving with Algorithms and Data Structures using Python. ebook (creative commons edition). Runestone Interactive, 2013. Licensed under a Creative Commons Attribution-NonCommercial- ShareAlike 4.0 International License.'),
             ),
             SizedBox(height: 50)
           ],
