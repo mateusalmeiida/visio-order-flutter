@@ -56,12 +56,26 @@ class InfoPageBubble extends StatelessWidget {
               child: SelectableText(
                   style: TextStyle(fontSize: fontSize),
                   textAlign: TextAlign.justify,
-                  'Este aplicativo foi desenvolvido como parte de um Trabalho de Conclusão de Curso (TCC) em Engenharia da Computação, '
-                  'com o objetivo de possibilitar uma experiência visual e interativa dos principais algoritmos de ordenação conhecidos. '
-                  'Nele, você pode explorar diferentes algoritmos, ajustando a velocidade e observando o funcionamento passo a passo. '
-                  'A interface intuitiva permite selecionar o algoritmo, definir o tamanho do conjunto de dados e até inserir valores manualmente para personalizar sua experiência.\n\n'
-                  'Este aplicativo é uma ferramenta projetada para possibilitar a visualização dos conceitos e da lógica por '
-                  'trás dos algoritmos de ordenação.\n\n'),
+                  'O Bubble Sort percorre uma lista repetidamente, comparando pares de elementos adjacentes e trocando-os se estiverem na ordem errada. O algoritmo inicia comparando o primeiro elemento de uma lista com o segundo. Se os dois elementos estiverem fora de ordem (ou seja, o primeiro for maior do que o segundo, no caso de uma ordenação crescente), eles são trocados.\n\n'
+                  'Em seguida, o algoritmo compara o segundo elemento com o terceiro, e assim por diante, até que o final da lista seja alcançado (Appiah & Martey, 2015). Segundo Miller e Ranum (2013), cada passagem pela lista coloca na posição correta o maior valor não ordenado.\n\n'
+                  'Para conjunto de valores de tamanho n, o algoritmo realiza n-1 passagens. Na primeira passagem existem n-1 pares adjacentes a serem comparados. Na segunda passagem, o maior valor está ordenado e são necessárias apenas n-2 comparações entre os pares. Em cada passagem subsequente o número de comparações diminui em um, até que sejam feitas n-1 passagens e o conjunto de dados esteja ordenado (Miller & Ranum, 2013).\n'),
+            ),
+            SizedBox(
+              width: widthContainerText,
+              child: SelectableText(
+                  style: TextStyle(fontSize: fontSize, color: Colors.grey),
+                  textAlign: TextAlign.center,
+                  'Referências'),
+            ),
+            SizedBox(height: 5),
+            SizedBox(
+              width: widthContainerText,
+              child: SelectableText(
+                style: TextStyle(fontSize: fontSize, color: Colors.grey),
+                textAlign: TextAlign.justify,
+                'APPIAH, O.; MARTEY, E. M. Magnetic bubble sort algorithm. International Journal of Computer Applications, v. 122, p. 975–8887, 07 2015.\n\n'
+                'MILLER, B. N.; RANUM, D. L. Problem Solving with Algorithms and Data Structures using Python. ebook (creative commons edition). Runestone Interactive, 2013. Licensed under a Creative Commons Attribution-NonCommercial- ShareAlike 4.0 International License.',
+              ),
             ),
             SizedBox(height: 50)
           ],

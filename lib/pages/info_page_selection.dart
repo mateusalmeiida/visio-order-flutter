@@ -56,12 +56,24 @@ class InfoPageSelection extends StatelessWidget {
               child: SelectableText(
                   style: TextStyle(fontSize: fontSize),
                   textAlign: TextAlign.justify,
-                  'Este aplicativo foi desenvolvido como parte de um Trabalho de Conclusão de Curso (TCC) em Engenharia da Computação, '
-                  'com o objetivo de possibilitar uma experiência visual e interativa dos principais algoritmos de ordenação conhecidos. '
-                  'Nele, você pode explorar diferentes algoritmos, ajustando a velocidade e observando o funcionamento passo a passo. '
-                  'A interface intuitiva permite selecionar o algoritmo, definir o tamanho do conjunto de dados e até inserir valores manualmente para personalizar sua experiência.\n\n'
-                  'Este aplicativo é uma ferramenta projetada para possibilitar a visualização dos conceitos e da lógica por '
-                  'trás dos algoritmos de ordenação.\n\n'),
+                  'O Selection Sort utiliza ordenação por seleção. Dado um conjunto de valores, seu processamento é feito dividindo a lista em duas partições: ordenada e não ordenada. Inicialmente, a parte ordenada é vazia e a parte não ordenada contém todos os elementos. A cada iteração o menor elemento da parte não ordenada é selecionado e colocado na sua posição correta dentro da sequência final, passando para a partição ordenada (Brunet, 2019).\n\n'
+                  'Para uma ordenação crescente, o algoritmo escolhe o primeiro elemento da parte não ordenada que está na posição i e o considera o menor até o momento. Em seguida ele percorre o restante da parte não ordenada, comparando cada elemento com o menor já encontrado. Caso encontre um valor menor, ele marca a posição desse novo menor valor. Ao final dessa varredura, o elemento na posição marcada (o menor encontrado) troca de lugar com o elemento da posição i. Dessa forma, o elemento não ordenado de menor valor é colocado na sua posição correta\n\n'
+                  'O algoritmo repete esse processo, considerando i+1 como a nova posição de início da parte não ordenada, seguindo assim até que toda a lista esteja ordenada. Para um vetor de tamanho n, o Selection Sort precisa de n-1 comparações até selecionar o elemento que ocupará o índice 1. Para o índice 2, são necessárias n-2 comparações. A última iteração precisará de apenas uma comparação para ser concluída (Brunet, 2019).\n'),
+            ),
+            SizedBox(
+              width: widthContainerText,
+              child: SelectableText(
+                  style: TextStyle(fontSize: fontSize, color: Colors.grey),
+                  textAlign: TextAlign.center,
+                  'Referências'),
+            ),
+            SizedBox(height: 5),
+            SizedBox(
+              width: widthContainerText,
+              child: SelectableText(
+                  style: TextStyle(fontSize: fontSize, color: Colors.grey),
+                  textAlign: TextAlign.justify,
+                  'BRUNET, J. A. Ordenação por Comparação: Selection Sort. 2019. Disponível em: <https://joaoarthurbm.github.io/eda/posts/selection-sort/>. Acesso em: 09 set. 2024.'),
             ),
             SizedBox(height: 50)
           ],

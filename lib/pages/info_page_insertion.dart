@@ -56,12 +56,25 @@ class InfoPageInsertion extends StatelessWidget {
               child: SelectableText(
                   style: TextStyle(fontSize: fontSize),
                   textAlign: TextAlign.justify,
-                  'Este aplicativo foi desenvolvido como parte de um Trabalho de Conclusão de Curso (TCC) em Engenharia da Computação, '
-                  'com o objetivo de possibilitar uma experiência visual e interativa dos principais algoritmos de ordenação conhecidos. '
-                  'Nele, você pode explorar diferentes algoritmos, ajustando a velocidade e observando o funcionamento passo a passo. '
-                  'A interface intuitiva permite selecionar o algoritmo, definir o tamanho do conjunto de dados e até inserir valores manualmente para personalizar sua experiência.\n\n'
-                  'Este aplicativo é uma ferramenta projetada para possibilitar a visualização dos conceitos e da lógica por '
-                  'trás dos algoritmos de ordenação.\n\n'),
+                  'O algoritmo de ordenação por inserção, ou Insertion Sort, ordena um vetor separando-o em duas partições, a partição ordenada e a não ordenada. A partição ordenada começa com um único elemento, que corresponde ao primeiro índice do vetor que se quer ordenar. A partição não ordenada possui o restante dos elementos do vetor. A cada iteração um elemento é retirado da partição não ordenada e inserido na partição ordenada, seguindo as regras de ordenação definidas (Sodhi et al, 2013). Ao final da execução, a segunda partição deve estar vazia e a primeira deve conter todo o vetor devidamente ordenado.\n\n'
+                  'Para ordenar um vetor de tamanho n em ordem crescente, o Insertion Sort inicia inserindo o elemento de índice 1 na partição ordenada, e os elementos restantes (índice 2 a n) são colocados na partição não ordenada. O algoritmo percorre a partição não ordenada, retirando os seus elementos e inserindo-os na posição correta dentro da partição ordenada.\n\n'
+                  'Um elemento x retirado da partição não ordenada é alocado como um novo elemento e ocupa inicialmente o último índice da partição ordenada. A partir dessa posição i, o algoritmo começa a compará-lo com os elementos anteriores da partição ordenada, começando do índice i-1. Se o valor contido no índice i-1 for maior do que x, os dois trocam de lugar, e o algoritmo continua comparando x com os elementos em posições cada vez menores (i-2, i-3, i-4, ...), até que encontre um valor menor ou igual a x, ou até que x alcance o índice 1. Esse processo é repetido para todos os elementos contidos na partição não ordenada. O algoritmo termina quando o último elemento da partição não ordenada for inserido na sua posição correta dentro da partição ordenada (Brunet, 2019).\n'),
+            ),
+            SizedBox(
+              width: widthContainerText,
+              child: SelectableText(
+                  style: TextStyle(fontSize: fontSize, color: Colors.grey),
+                  textAlign: TextAlign.center,
+                  'Referências'),
+            ),
+            SizedBox(height: 5),
+            SizedBox(
+              width: widthContainerText,
+              child: SelectableText(
+                  style: TextStyle(fontSize: fontSize, color: Colors.grey),
+                  textAlign: TextAlign.justify,
+                  'BRUNET, J. A. Ordenação por Comparação: Insertion Sort. 2019. Disponível em: <https://joaoarthurbm.github.io/eda/posts/insertion-sort/>. Acesso em: 20 set. 2024.\n\n'
+                  'SODHI, T. S.; KAUR, S.; KAUR, S. Enhanced insertion sort algorithm. International Journal of Computer Applications, Foundation of Computer Science (FCS), NY, USA, New York, USA, v. 64, n. 21, p. 35–39, February 2013. ISSN 0975-8887. Disponível em: <https://ijcaonline.org/archives/volume64/number21/10761-5724/>.'),
             ),
             SizedBox(height: 50)
           ],
