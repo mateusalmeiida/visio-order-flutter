@@ -59,7 +59,8 @@ class InfoPageQuick extends StatelessWidget {
                   'O Quick Sort utiliza a abordagem de divisão e conquista. Ele seleciona um valor como pivô que ajuda a dividir a lista em duas sublistas. A escolha do pivô pode ser feita de várias maneiras, por exemplo, o primeiro elemento da lista. Depois de divididas, as sublistas também chamam o Quick Sort para serem ordenadas, por isso, o algoritmo é recursivo. O caso base é uma lista com um ou nenhum elemento, considerada ordenada por definição (Miller & Ranum, 2013).\n\n'
                   'Após selecionar o elemento pivô, o particionamento inicia posicionando dois marcadores: o esquerdo, marcando a primeira posição após o pivô, e o direito, marcando a última posição da lista. O objetivo é separar os valores maiores que o pivô em um sublista diferente dos valores menores. O marcador esquerdo se move para a direita, caso encontre um valor maior do que o pivô, ele para. O marcador direito se move para a esquerda, caso encontre um valor menor do que o pivô, ele para. Se os dois marcadores pararem, os elementos indicados pelos dois devem trocar de posição.\n\n'
                   'Depois de trocarem de posição os marcadores seguem fazendo o mesmo processo. Quando o marcador direito indicar uma posição menor do que a indicada pelo marcador esquerdo, eles param. O elemento pivô troca de lugar com o elemento indicado pelo marcador direito e o ponto de divisão é definido. A lista estão é dividida em duas sublistas, uma à esquerda e outra à direita do elemento pivô.\n\n'
-                  'A lista da esquerda contém elementos menores ou iguais ao pivô, enquanto a lista da direita contém elementos maiores ou iguais a ele (Miller & Ranum, 2013). O Quick Sort é chamado recursivamente pelas duas sublistas geradas. A lista original estará ordenada após a execução de todas as instâncias do algoritmo que forem chamadas\n'),
+                  'A lista da esquerda contém elementos menores ou iguais ao pivô, enquanto a lista da direita contém elementos maiores ou iguais a ele (Miller & Ranum, 2013). O Quick Sort é chamado recursivamente pelas duas sublistas geradas. A lista original estará ordenada após a execução de todas as instâncias do algoritmo que forem chamadas\n\n'
+                  'Seu tempo de execução vária de acordo com a escolha do pivô e a disposição dos elementos na lista. Nos casos melhor e médio sua complexidade é O(n log n). No pior caso, quando o elemento escolhido como pivô é sempre o maior ou o menor elemento da lista, sua complexidade é O(n²) (Silva, 2023).\n'),
             ),
             SizedBox(
               width: widthContainerText,
@@ -74,7 +75,8 @@ class InfoPageQuick extends StatelessWidget {
               child: SelectableText(
                 style: TextStyle(fontSize: fontSize, color: Colors.grey),
                 textAlign: TextAlign.justify,
-                'MILLER, B. N.; RANUM, D. L. Problem Solving with Algorithms and Data Structures using Python. ebook (creative commons edition). Runestone Interactive, 2013. Licensed under a Creative Commons Attribution-NonCommercial- ShareAlike 4.0 International License.',
+                'MILLER, B. N.; RANUM, D. L. Problem Solving with Algorithms and Data Structures using Python. ebook (creative commons edition). Runestone Interactive, 2013. Licensed under a Creative Commons Attribution-NonCommercial- ShareAlike 4.0 International License.\n\n'
+                'SILVA, ARTHUR VINÍCIUS ROMUALDO DA, Análise de desempenho e complexidade dos Algoritmos de ordenação. Medium. 2023. Disponível em: <https://medium.com/@romualdo.v/an%C3%A1lise-de-desempenho-e-complexidade-dos-algoritmos-de-ordena%C3%A7%C3%A3o-f47449e93b33>. Acesso em: 17 nov. 2025.',
               ),
             ),
             SizedBox(height: 50)
